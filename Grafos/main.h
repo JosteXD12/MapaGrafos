@@ -32,4 +32,5 @@ private:
 	Text* textoBtn[8];
 	Sprite *fondo;
 	Texture *mapa;
+	int n = 0;
 };
