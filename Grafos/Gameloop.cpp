@@ -6,6 +6,7 @@ Grafos::Grafos(int resolX, int resolY, string titulo)
 	evento = new Event;
 	fondo = new Sprite;
 	mapa = new Texture;
+	fuente = new Font;
 	CargarObjetos();
 	Gameloop();
 }

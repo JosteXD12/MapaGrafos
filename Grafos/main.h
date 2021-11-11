@@ -16,6 +16,8 @@ public:
 	void CargarObjetos();
 	void dibujarPantalla();
 
+	bool agregarArista;
+
 	RectangleShape setRectangulo(float ancho, float alto, float x, float y)
 	{ //crea un rectangulo
 		RectangleShape rectangulo(Vector2f(ancho, alto));
@@ -28,6 +30,7 @@ private:
 	Event* evento;
 	RectangleShape boton[8];
 	RectangleShape arista[100];
+	Text* textoAristas[100];
 	Font* fuente;
 	Text* textoBtn[8];
 	Sprite *fondo;
