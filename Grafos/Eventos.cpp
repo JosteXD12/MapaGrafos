@@ -19,9 +19,6 @@ void Grafos::Eventos() {
                 textoAristas[n]->setPosition(posicionMouse.x+2, posicionMouse.y-1);
                 n++;
                 agregarArista = false;
-                definirMatriz();
-                cout << matriz[0][0] << endl;
-                borrarMatriz();
             }
             if (ColisionMouse() == 1) {
                 agregarArista = true;       
