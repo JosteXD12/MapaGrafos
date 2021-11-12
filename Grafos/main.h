@@ -4,6 +4,7 @@
 #include <stack>
 #include <queue>
 #include <fstream>
+#define INF 0x3f3f3f3f
 using namespace std;
 using namespace sf;
 
@@ -18,6 +19,26 @@ public:
 
 	bool agregarArista;
 
+	void definirMatriz() {
+		matriz = new int*[n];
+		for (int i = 0; i < n; i++) {
+			matriz[i] = new int[n];
+		}
+		llenarMatriz();
+	}
+	void borrarMatriz() {
+		for (int i = 0; i < n; i++) {
+			delete[] matriz[i];
+		}
+	}
+	void llenarMatriz() {
+		for (int i = 0; i < n; i++) {
+			if (matriz[i][i] < 0) {
+				matriz[i][i] = INF;
+			}
+		}
+	}
+
 	RectangleShape setRectangulo(float ancho, float alto, float x, float y)
 	{ //crea un rectangulo
 		RectangleShape rectangulo(Vector2f(ancho, alto));
@@ -25,6 +46,7 @@ public:
 		return rectangulo;
 	}
 	~Grafos();
+	
 private:
 	RenderWindow* pantalla;
 	Event* evento;
@@ -36,4 +58,5 @@ private:
 	Sprite *fondo;
 	Texture *mapa;
 	int n = 0;
+	int** matriz;
 };

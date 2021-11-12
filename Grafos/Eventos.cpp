@@ -11,7 +11,7 @@ void Grafos::Eventos() {
             if (agregarArista == true) {
                 Vector2i posicionMouse = Mouse::getPosition(*pantalla);
                 posicionMouse = (Vector2i)pantalla->mapPixelToCoords(posicionMouse);
-                arista[n].setSize(Vector2f(16, 16));
+                arista[n].setSize(Vector2f(20, 20));
                 arista[n].setPosition(posicionMouse.x, posicionMouse.y);
 
                 textoAristas[n] = new Text(to_string(n), *fuente, 16);
@@ -19,12 +19,16 @@ void Grafos::Eventos() {
                 textoAristas[n]->setPosition(posicionMouse.x+2, posicionMouse.y-1);
                 n++;
                 agregarArista = false;
+                definirMatriz();
+                cout << matriz[0][0] << endl;
+                borrarMatriz();
             }
             if (ColisionMouse() == 1) {
                 agregarArista = true;       
             }
             
         }
+
     }
 }
 
