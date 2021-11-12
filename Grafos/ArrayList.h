@@ -1,10 +1,6 @@
 #pragma once
-
-#include <iostream>
-
 #ifndef ARRAYLIST_H
 #define ARRAYLIST_H
-
 // Clase arraylist
 template <typename T>
 struct Node

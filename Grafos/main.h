@@ -1,11 +1,11 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include "iostream"
+#include "Vertice.h"
+#include "ArrayList.h"
 #include <stack>
 #include <queue>
 #include <fstream>
 #define INF 0x3f3f3f3f
-using namespace std;
 using namespace sf;
 
 class Grafos {
