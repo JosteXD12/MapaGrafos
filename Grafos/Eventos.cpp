@@ -1,4 +1,8 @@
-#include "main.h" 
+
+#include "main.h"
+
+
+
 void Grafos::Eventos() {
     while (pantalla->pollEvent(*evento)) {
         switch (evento->type)
@@ -34,6 +38,8 @@ int Grafos::ColisionMouse() {
     posicionMouse = (Vector2i)pantalla->mapPixelToCoords(posicionMouse);
     FloatRect hitboxMouse = Rect<float>::Rect(posicionMouse.x, posicionMouse.y, 1, 1);
 
+    
+
     if (boton[0].getGlobalBounds().intersects(hitboxMouse)) {
         return 1; 
     }
@@ -52,5 +58,6 @@ int Grafos::ColisionMouse() {
     if (boton[5].getGlobalBounds().intersects(hitboxMouse)) {
         return 6;
     }
+
 
 }

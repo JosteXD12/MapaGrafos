@@ -1,15 +1,15 @@
 #pragma once
 #include "SFML/Graphics.hpp"
-#include "Vertice.h"
 #include "ArrayList.h"
-#include <stack>
-#include <queue>
-#include <fstream>
+#include "Arista.h"
+
+
 #define INF 0x3f3f3f3f
-using namespace sf;
+
 
 class Grafos {
 public:
+
 	Grafos(int resolX, int ResolY, string titulo);
 	void Gameloop();
 	void Eventos();
@@ -20,7 +20,7 @@ public:
 	bool agregarArista;
 
 	void definirMatriz() {
-		matriz = new int*[n];
+		matriz = new int* [n];
 		for (int i = 0; i < n; i++) {
 			matriz[i] = new int[n];
 		}
@@ -46,17 +46,17 @@ public:
 		return rectangulo;
 	}
 	~Grafos();
-	
+
 private:
 	RenderWindow* pantalla;
 	Event* evento;
 	RectangleShape boton[8];
-	RectangleShape arista[100];
+	ArrayList<Vertice*>* lista_vertices;
 	Text* textoAristas[100];
 	Font* fuente;
 	Text* textoBtn[8];
-	Sprite *fondo;
-	Texture *mapa;
+	Sprite* fondo;
+	Texture* mapa;
 	int n = 0;
 	int** matriz;
 };

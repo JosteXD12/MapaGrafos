@@ -1,4 +1,6 @@
-#include "main.h" 
+#include "main.h"
+
+
 
 void Grafos::dibujarPantalla(){
 	int contador =0;

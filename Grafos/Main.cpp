@@ -1,8 +1,7 @@
-#include "SFML/Graphics.hpp"
+
+
 #include "main.h"
 
-using namespace sf;
-using namespace std;
 
 int main()
 {

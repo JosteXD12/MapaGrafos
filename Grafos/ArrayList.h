@@ -1,6 +1,8 @@
 #pragma once
-#ifndef ARRAYLIST_H
-#define ARRAYLIST_H
+#include <fstream>
+#include <iostream>
+using namespace sf;
+using namespace std;
 // Clase arraylist
 template <typename T>
 struct Node
@@ -21,29 +23,29 @@ private:
 	int size;
 	Node<T>* end;
 
-void fixIndexes()
-{ 
-	size = 0;
-	if (init != nullptr)
+	void fixIndexes()
 	{
-		iterator = init;
-		while (true)
+		size = 0;
+		if (init != nullptr)
 		{
-			iterator->index = size;
-			size++;
-
-			iterator = iterator->next;
-			if (iterator == nullptr)
+			iterator = init;
+			while (true)
 			{
-				iterator = init;
-				break;
+				iterator->index = size;
+				size++;
+
+				iterator = iterator->next;
+				if (iterator == nullptr)
+				{
+					iterator = init;
+					break;
+				}
 			}
 		}
 	}
-}
 public:
 	ArrayList() { init = nullptr, iterator = nullptr, end = nullptr, size = 0; }
-	~ArrayList(){}
+	~ArrayList() {}
 
 	void set(T object)
 	{
@@ -67,7 +69,7 @@ public:
 	}
 	T get(int index)
 	{
-		if (init != nullptr || index<size || index>=0)
+		if (init != nullptr || index < size || index >= 0)
 		{
 			while (true)
 			{
@@ -112,7 +114,7 @@ public:
 	}
 	bool drop(int index)
 	{
-		Node<T>* aux= nullptr;
+		Node<T>* aux = nullptr;
 		if (init != nullptr || index < size || index >= 0)
 		{
 			while (true)
@@ -121,7 +123,7 @@ public:
 				{
 					if (index == iterator->index)
 					{
-						aux= iterator;
+						aux = iterator;
 						break;
 					}
 					else
@@ -134,7 +136,7 @@ public:
 					iterator = iterator->prev;
 				}
 			}
-			if(size==1)
+			if (size == 1)
 			{
 				init = nullptr;
 				iterator = nullptr;
@@ -177,4 +179,5 @@ public:
 		return true;
 	}
 };
-#endif // ! ARRAYLIST_H
+
+
