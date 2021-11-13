@@ -21,8 +21,7 @@ public:
 	void Warshall(Vertice* from, Vertice* to);
 	void Prim();
 	void Kruskal();
-
-	bool agregarArista;
+	int verticesSeleccionados();
 
 	void definirMatriz() {
 		matriz = new int* [n];
@@ -57,7 +56,8 @@ private:
 	Event* evento;
 	RectangleShape boton[8];
 	ArrayList<Vertice*>* lista_vertices=new ArrayList<Vertice*>();
-	Text* textoAristas[100];
+	ArrayList<Arista*>* lista_aristas = new ArrayList<Arista*>();
+	Text* textoVertices[100];
 	Font* fuente;
 	Text* textoBtn[8];
 	Sprite* fondo;
@@ -65,4 +65,12 @@ private:
 	int n = 0;
 	int** matriz;
 	Vertice* selec[2] = {nullptr,nullptr};
+
+	bool agregarVertice=false;
+	bool seleccionarVertice=false;
+	bool activarTexbox = false;
+
+	RectangleShape box;
+	Text box_txt;
+	String y;
 };

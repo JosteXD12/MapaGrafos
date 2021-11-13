@@ -8,7 +8,7 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(*fondo);
 	while (contador < n) {
 		pantalla->draw(*lista_vertices->get(contador));
-		pantalla->draw(*textoAristas[contador]);
+		pantalla->draw(*textoVertices[contador]);
 		contador++;
 	}
 	pantalla->draw(boton[0]);//Dibujar aristas o vertices
@@ -24,5 +24,7 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(*textoBtn[3]);
 	pantalla->draw(*textoBtn[4]);
 	pantalla->draw(*textoBtn[5]);
+	pantalla->draw(box);
+	pantalla->draw(box_txt);
 	pantalla->display();
 }
