@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Arista.cpp" />
     <ClCompile Include="cargarObjetos.cpp" />
     <ClCompile Include="dibujarPantalla.cpp" />
     <ClCompile Include="Eventos.cpp" />

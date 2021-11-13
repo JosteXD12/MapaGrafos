@@ -24,6 +24,7 @@ void Grafos::CargarObjetos() {
 	textoBtn[5] = new Text("Kruskal", *fuente, 24);
 	textoBtn[5]->setFillColor(Color(52, 91, 99));
 
+
 	//============== Botones ========================
 
 	// Agregar

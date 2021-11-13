@@ -7,7 +7,7 @@ void Grafos::dibujarPantalla(){
 	pantalla->clear();
 	pantalla->draw(*fondo);
 	while (contador < n) {
-		pantalla->draw(arista[contador]);
+		pantalla->draw(*lista_vertices->get(contador));
 		pantalla->draw(*textoAristas[contador]);
 		contador++;
 	}

@@ -14,8 +14,13 @@ public:
 	void Gameloop();
 	void Eventos();
 	int ColisionMouse();
+	int colisionVertices(Vertice* send);
 	void CargarObjetos();
 	void dibujarPantalla();
+	void Dijkstra(Vertice* from, Vertice* to);
+	void Warshall(Vertice* from, Vertice* to);
+	void Prim();
+	void Kruskal();
 
 	bool agregarArista;
 
@@ -51,7 +56,7 @@ private:
 	RenderWindow* pantalla;
 	Event* evento;
 	RectangleShape boton[8];
-	ArrayList<Vertice*>* lista_vertices;
+	ArrayList<Vertice*>* lista_vertices=new ArrayList<Vertice*>();
 	Text* textoAristas[100];
 	Font* fuente;
 	Text* textoBtn[8];
@@ -59,4 +64,5 @@ private:
 	Texture* mapa;
 	int n = 0;
 	int** matriz;
+	Vertice* selec[2] = {nullptr,nullptr};
 };
