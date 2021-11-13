@@ -1,4 +1,3 @@
-
 #include "main.h"
 
 
@@ -15,8 +14,8 @@ void Grafos::Eventos() {
             if (agregarArista == true) {
                 Vector2i posicionMouse = Mouse::getPosition(*pantalla);
                 posicionMouse = (Vector2i)pantalla->mapPixelToCoords(posicionMouse);
-                arista[n].setSize(Vector2f(20, 20));
-                arista[n].setPosition(posicionMouse.x, posicionMouse.y);
+                lista_vertices->get(n)->setSize(Vector2f(20, 20));
+                lista_vertices->get(n)->setPosition(posicionMouse.x, posicionMouse.y);
 
                 textoAristas[n] = new Text(to_string(n), *fuente, 16);
                 textoAristas[n]->setFillColor(Color::Black);
