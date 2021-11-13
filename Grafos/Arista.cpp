@@ -29,6 +29,16 @@ ArrayList<Arista*>* Vertice::getAristas()
 	return aristas;
 }
 
+void Vertice::setEtiqueta(Etiqueta* etiqueta)
+{
+	this->etiqueta = etiqueta;
+}
+
+Etiqueta* Vertice::getEtiqueta()
+{
+	return etiqueta;
+}
+
 Arista::Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Vertice* vertice)
 {
 	this->ini_x = ini_x;

@@ -31,18 +31,26 @@ public:
 	void setVertice(Vertice* vertice);
 };
 
-
+struct Etiqueta
+{
+	int dist;
+	Vertice* from;
+	int iter;
+};
 class Vertice : public RectangleShape
 {
 private:
 	int id;
 	bool visitado;
 	ArrayList<Arista*>* aristas;
+	Etiqueta* etiqueta;
 public:
 	Vertice(float xpos, float ypos, float width, float height, int id);
 	int getId();
 	bool isVisitado();
 	void setVisitado(bool visit);
 	ArrayList<Arista*>* getAristas();
+	void setEtiqueta(Etiqueta* etiqueta);
+	Etiqueta* getEtiqueta();
 };
 
