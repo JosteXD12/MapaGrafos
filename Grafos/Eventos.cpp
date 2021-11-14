@@ -175,31 +175,89 @@ int Grafos::verticesSeleccionados() {
 
 // =================== algoritmos ===============================
 void Grafos::Dijkstra(Vertice* from, Vertice* to) {
-    /*Vertice* act = from;
-    ArrayList<Vertice*>* etiquetas;
-    Vertice* lowest = nullptr;
+    static Vertice* act;
+    static Etiqueta* temp;
+    static Arista* element;
+    ruta_principal = "";
+    act= from;
+    static string ruta;
+    static ArrayList<Vertice*>* etiquetas;
+    etiquetas = new ArrayList<Vertice*>();
+    static Vertice* lowest;
+    lowest = nullptr;
     act->setEtiqueta(new Etiqueta{ 0, nullptr, 0 });
     etiquetas->set(act);
-    while (act != to)
+    while (true)
     {
         act->setVisitado(true);
         for (int i = 0; i < act->getAristas()->getSize(); i++)
         {
-            Arista* element = act->getAristas()->get(i);
-            if (element->getVertice()->getEtiqueta() != nullptr) continue;
-            element->getVertice()->setEtiqueta(new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 });
-            etiquetas->set(element->getVertice());
+            temp = nullptr;
+            element = act->getAristas()->get(i);
+            if (element->getVertice()->isVisitado()) continue;
+            if (element->getVertice()->getEtiqueta() != nullptr)
+            {
+                temp = new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 };
+                if (element->getVertice()->getEtiqueta()->dist >= temp->dist)
+                {
+                    element->getVertice()->setEtiqueta(temp);
+                }
+            }
+            else
+            {
+                element->getVertice()->setEtiqueta(new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 });
+                etiquetas->set(element->getVertice());
+            }
         }
         for (int i = 0; i < etiquetas->getSize(); i++)
         {
-            if (lowest == nullptr) lowest = etiquetas->get(i);
+            if (etiquetas->get(i)->isVisitado()) continue;
+            if (lowest == nullptr) lowest = etiquetas->get(i); 
             else
             {
                 lowest = (etiquetas->get(i)->getEtiqueta()->dist <= lowest->getEtiqueta()->dist ? etiquetas->get(i) : lowest);
             }
         }
-    }*/
-
+        if (lowest == nullptr) break;
+        act = lowest;
+        lowest = nullptr;
+    }
+    static string ss;
+    ss = "";
+    ruta = "";
+    for (int i = 1; i < etiquetas->getSize(); i++)
+    {
+        act = etiquetas->get(i);
+        while (act != from)
+        {
+            ruta += act->getId();
+            ruta += '-';
+            act = act->getEtiqueta()->from;
+        }
+        ruta += act->getId();
+        for (int j = ruta.length()-1; j >= 0; j--)
+        {
+            ss += ruta[j];
+        }
+        rutas_cortas->set(ss);
+        ruta = "";
+        ss = "";
+    }
+    ruta = "";
+    ss = "";
+    act = to;
+    while (act != from)
+    {
+        ruta_principal += act->getId();
+        ruta_principal += '-';
+        act = act->getEtiqueta()->from;
+    }
+    ruta_principal += act->getId();
+    for (int j = ruta_principal.length() - 1; j >= 0; j--)
+    {
+        ss += ruta_principal[j];
+    }
+    ruta_principal = ss;
 }
 void Grafos::Warshall(Vertice* from, Vertice* to) {
 

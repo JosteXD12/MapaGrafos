@@ -69,7 +69,8 @@ private:
 	bool agregarVertice=false;
 	bool seleccionarVertice=false;
 	bool activarTexbox = false;
-
+	ArrayList<string>* rutas_cortas= new ArrayList<string>();
+	string ruta_principal;
 	RectangleShape box;
 	Text box_txt;
 	String y;
