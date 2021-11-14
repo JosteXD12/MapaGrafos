@@ -64,8 +64,8 @@ private:
 	Texture* mapa;
 	int n = 0;
 	int** matriz;
-	Vertice* selec[2] = {nullptr,nullptr};
-
+	Vertice* selec_algorit[2] = {nullptr,nullptr};
+	Vertice* select_grafo = nullptr;
 	bool agregarVertice=false;
 	bool seleccionarVertice=false;
 	bool activarTexbox = false;

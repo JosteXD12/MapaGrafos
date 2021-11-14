@@ -16,14 +16,31 @@ void Grafos::Eventos() {
                 posicionMouse = (Vector2i)pantalla->mapPixelToCoords(posicionMouse);
                 lista_vertices->set(new Vertice(posicionMouse.x, posicionMouse.y, 20, 20, n));
 
-
                 textoVertices[n] = new Text(to_string(n), *fuente, 16);
                 textoVertices[n]->setFillColor(Color::Black);
                 textoVertices[n]->setPosition(posicionMouse.x + 2, posicionMouse.y - 1);
+                
+                if (select_grafo != nullptr)
+                {
+                    select_grafo->getAristas()->set(new Arista(select_grafo->getPosition().x + 10, select_grafo->getPosition().y + 10, lista_vertices->get(n)->getPosition().x + 10, lista_vertices->get(n)->getPosition().y + 10, 0, lista_vertices->get(n)));
+                }
+                else
+                {
+                    if (selec_algorit[0] == nullptr)
+                    {
+                        cout << "entro1" << endl;
+                        selec_algorit[0] = lista_vertices->get(n);
+                    }
+                    else if (selec_algorit[1] == nullptr)
+                    {
+                        cout << "entro2" << endl;
+                        selec_algorit[1] = lista_vertices->get(n);
 
-                if (n >0) {                   
-                    lista_vertices->get(n);
-                    lista_vertices->get(n-1);
+                        selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[1]));
+
+                        selec_algorit[0] = nullptr;
+                        selec_algorit[1] = nullptr;
+                    }
                 }
                 n++;
                 agregarVertice = false;
@@ -31,7 +48,7 @@ void Grafos::Eventos() {
             //============= Selecciona 2 vertices ====================
             if (seleccionarVertice == true) {
                 verticesSeleccionados();
-                if (selec[1] != nullptr) {
+                if (selec_algorit[1] != nullptr) {
                     seleccionarVertice = false;
                     activarTexbox = true;
                 }
@@ -47,10 +64,10 @@ void Grafos::Eventos() {
                 break;
 
             case 3:
-               Dijkstra(selec[0], selec[1]);
+               Dijkstra(selec_algorit[0], selec_algorit[1]);
                 break;
             case 4:
-                Warshall(selec[0], selec[1]);
+                Warshall(selec_algorit[0], selec_algorit[1]);
 
             case 5:
                 Prim();
@@ -80,7 +97,7 @@ void Grafos::Eventos() {
                 }
 
                 for (int i = 0; i < n; i++) {
-                    if (lista_vertices->get(i) == selec[0]) {
+                    if (lista_vertices->get(i) == selec_algorit[0]) {
                         
                     }
                 }
@@ -89,8 +106,7 @@ void Grafos::Eventos() {
 
                 box_txt.setString(y);
                 activarTexbox = false;
-                //selec[0] = nullptr;
-                //selec[1] = nullptr;
+                select_grafo = nullptr;
             }
         }
     }
@@ -99,11 +115,11 @@ void Grafos::Eventos() {
 int Grafos::colisionVertices(Vertice* send) {
     static bool s=true;
     if (s) {
-        selec[0] = send;
+        selec_algorit[0] = send;
     }
     else
     {
-        selec[1] = send;
+        selec_algorit[1] = send;
     }
     s = (s ? false : true);
 
@@ -151,6 +167,7 @@ int Grafos::verticesSeleccionados() {
     for (int i = 0; i < lista_vertices->getSize(); i++) {
         if (lista_vertices->get(i)->getGlobalBounds().intersects(hitboxMouse)) {
             lista_vertices->get(i)->setFillColor(Color::Yellow);
+            select_grafo = lista_vertices->get(i);
             return colisionVertices(lista_vertices->get(i));
         }
     }
@@ -158,7 +175,7 @@ int Grafos::verticesSeleccionados() {
 
 // =================== algoritmos ===============================
 void Grafos::Dijkstra(Vertice* from, Vertice* to) {
-    Vertice* act = from;
+    /*Vertice* act = from;
     ArrayList<Vertice*>* etiquetas;
     Vertice* lowest = nullptr;
     act->setEtiqueta(new Etiqueta{ 0, nullptr, 0 });
@@ -181,7 +198,7 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
                 lowest = (etiquetas->get(i)->getEtiqueta()->dist <= lowest->getEtiqueta()->dist ? etiquetas->get(i) : lowest);
             }
         }
-    }
+    }*/
 
 }
 void Grafos::Warshall(Vertice* from, Vertice* to) {
