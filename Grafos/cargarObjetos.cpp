@@ -9,7 +9,7 @@ void Grafos::CargarObjetos() {
 	textoBtn[0] = new Text("Vertice", *fuente, 24);
 	textoBtn[0]->setFillColor(Color(52, 91, 99));
 
-	textoBtn[1] = new Text("Peso", *fuente, 24);
+	textoBtn[1] = new Text("Seleccionar", *fuente, 22);
 	textoBtn[1]->setFillColor(Color(52, 91, 99));
 
 	textoBtn[2] = new Text("Dijkstra", *fuente, 24);
@@ -39,14 +39,14 @@ void Grafos::CargarObjetos() {
 	boton[0].setFillColor(Color(165, 225, 173));
 	boton[0].setOutlineColor(Color(100, 175, 99));
 	boton[0].setOutlineThickness(4);
-	textoBtn[0]->setPosition(48, 112);
+	textoBtn[0]->setPosition(40, 112);
 
-	// agregar peso
+	// seleccionar
 	boton[1] = setRectangulo(128, 32, 16, 160);
 	boton[1].setFillColor(Color(165, 225, 173));
 	boton[1].setOutlineColor(Color(100, 175, 99));
 	boton[1].setOutlineThickness(4);
-	textoBtn[1]->setPosition(48, 160);
+	textoBtn[1]->setPosition(24, 160);
 
 	//Dijkstra
 	boton[2] = setRectangulo(128, 32, 1222, 112);

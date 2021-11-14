@@ -2,6 +2,7 @@
 #include "SFML/Graphics.hpp"
 #include "ArrayList.h"
 #include "Arista.h"
+#include <sstream>
 
 
 #define INF 0x3f3f3f3f

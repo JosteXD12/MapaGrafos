@@ -31,6 +31,7 @@ void Grafos::Eventos() {
                     {
                         cout << "entro1" << endl;
                         selec_algorit[0] = lista_vertices->get(n);
+                        selec_algorit[0]->setFillColor(Color::Yellow);
                     }
                     else if (selec_algorit[1] == nullptr)
                     {
@@ -38,19 +39,20 @@ void Grafos::Eventos() {
                         selec_algorit[1] = lista_vertices->get(n);
 
                         selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[1]));
-
-                        selec_algorit[0] = nullptr;
-                        selec_algorit[1] = nullptr;
+                        selec_algorit[1]->setFillColor(Color::Yellow);
+                        activarTexbox = true;
                     }
+                    agregarVertice = false;
                 }
                 n++;
-                agregarVertice = false;
+                
             }
             //============= Selecciona 2 vertices ====================
             if (seleccionarVertice == true) {
                 verticesSeleccionados();
                 if (selec_algorit[1] != nullptr) {
                     seleccionarVertice = false;
+                    selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[1]));
                     activarTexbox = true;
                 }
             }
@@ -83,6 +85,7 @@ void Grafos::Eventos() {
 
         case Event::TextEntered:
             if (activarTexbox) {
+                box.setOutlineColor(Color::Yellow);
                 if (char(evento->text.unicode)=='1' || char(evento->text.unicode) == '2' || char(evento->text.unicode) == '3'
                     || char(evento->text.unicode) == '4' || char(evento->text.unicode) == '5' || char(evento->text.unicode) == '6'
                     || char(evento->text.unicode) == '7' || char(evento->text.unicode) == '8' || char(evento->text.unicode) == '9' || char(evento->text.unicode) == '0') {
@@ -103,11 +106,20 @@ void Grafos::Eventos() {
                     }
                 }
 
-                y = "";
+                if (selec_algorit[1] != nullptr) {
+                    int Ipeso;
+                    istringstream(box_txt.getString()) >> Ipeso;
+                    selec_algorit[0]->getAristas()->get(0)->setPeso(Ipeso);
+                }
 
+                // ==========    vaciar   ====================
+                y = "";
                 box_txt.setString(y);
+                selec_algorit[0] = nullptr;
+                selec_algorit[1] = nullptr;
                 activarTexbox = false;
                 select_grafo = nullptr;
+                box.setOutlineColor(Color(100, 175, 99));
             }
         }
     }

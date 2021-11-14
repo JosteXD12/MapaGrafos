@@ -7,12 +7,10 @@ void Grafos::dibujarPantalla(){
 	pantalla->clear();
 	pantalla->draw(*fondo);
 	while (contador < n) {
-		pantalla->draw(*lista_vertices->get(contador));
-		pantalla->draw(*textoVertices[contador]);
 		for (int i = 0; i < lista_vertices->get(contador)->getAristas()->getSize(); i++)
 		{
 			static Arista* this_arista;
-			this_arista= lista_vertices->get(contador)->getAristas()->get(i);
+			this_arista = lista_vertices->get(contador)->getAristas()->get(i);
 			Vertex line[] =
 			{
 				Vertex(Vector2f(this_arista->getIni_x(), this_arista->getIni_y())),
@@ -20,6 +18,8 @@ void Grafos::dibujarPantalla(){
 			};
 			pantalla->draw(line, 2, Lines);
 		}
+		pantalla->draw(*lista_vertices->get(contador));
+		pantalla->draw(*textoVertices[contador]);
 		contador++;
 	}
 	pantalla->draw(boton[0]);//Dibujar aristas o vertices
