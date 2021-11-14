@@ -40,13 +40,13 @@ struct Etiqueta
 class Vertice : public RectangleShape
 {
 private:
-	int id;
+	char id;
 	bool visitado;
 	ArrayList<Arista*>* aristas;
 	Etiqueta* etiqueta;
 public:
-	Vertice(float xpos, float ypos, float width, float height, int id);
-	int getId();
+	Vertice(float xpos, float ypos, float width, float height, char id);
+	char getId();
 	bool isVisitado();
 	void setVisitado(bool visit);
 	ArrayList<Arista*>* getAristas();

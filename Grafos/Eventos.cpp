@@ -14,9 +14,10 @@ void Grafos::Eventos() {
             if (agregarVertice == true) {
                 Vector2i posicionMouse = Mouse::getPosition(*pantalla);
                 posicionMouse = (Vector2i)pantalla->mapPixelToCoords(posicionMouse);
-                lista_vertices->set(new Vertice(posicionMouse.x, posicionMouse.y, 20, 20, n));
-
-                textoVertices[n] = new Text(to_string(n), *fuente, 16);
+                lista_vertices->set(new Vertice(posicionMouse.x, posicionMouse.y, 20, 20, 'A'+n));
+                string ss = "";
+                ss += 'A' + n;
+                textoVertices[n] = new Text(ss, *fuente, 16);
                 textoVertices[n]->setFillColor(Color::Black);
                 textoVertices[n]->setPosition(posicionMouse.x + 2, posicionMouse.y - 1);
                 
@@ -218,6 +219,7 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
                 lowest = (etiquetas->get(i)->getEtiqueta()->dist <= lowest->getEtiqueta()->dist ? etiquetas->get(i) : lowest);
             }
         }
+
         if (lowest == nullptr) break;
         act = lowest;
         lowest = nullptr;

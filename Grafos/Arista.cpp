@@ -1,6 +1,6 @@
 #include "main.h"
 
-Vertice::Vertice(float xpos, float ypos, float width, float height, int id) : RectangleShape()
+Vertice::Vertice(float xpos, float ypos, float width, float height, char id) : RectangleShape()
 {
 	this->setSize(Vector2f(width, height));
 	this->setPosition(xpos, ypos);
@@ -9,7 +9,7 @@ Vertice::Vertice(float xpos, float ypos, float width, float height, int id) : Re
 	this->id = id;
 }
 
-int Vertice::getId()
+char Vertice::getId()
 {
 	return id;
 }
