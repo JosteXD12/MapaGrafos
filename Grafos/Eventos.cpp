@@ -20,6 +20,11 @@ void Grafos::Eventos() {
                 textoVertices[n] = new Text(to_string(n), *fuente, 16);
                 textoVertices[n]->setFillColor(Color::Black);
                 textoVertices[n]->setPosition(posicionMouse.x + 2, posicionMouse.y - 1);
+
+                if (n >0) {                   
+                    lista_vertices->get(n);
+                    lista_vertices->get(n-1);
+                }
                 n++;
                 agregarVertice = false;
             }
@@ -69,13 +74,23 @@ void Grafos::Eventos() {
             }
         case Event::KeyPressed:
             if (evento->key.code == Keyboard::Enter) {
+                int a, b;
                 for (int i = 0; i < n; i++) {
                     lista_vertices->get(i)->setFillColor(Color::White);
                 }
 
+                for (int i = 0; i < n; i++) {
+                    if (lista_vertices->get(i) == selec[0]) {
+                        
+                    }
+                }
+
                 y = "";
+
                 box_txt.setString(y);
                 activarTexbox = false;
+                //selec[0] = nullptr;
+                //selec[1] = nullptr;
             }
         }
     }
@@ -143,6 +158,30 @@ int Grafos::verticesSeleccionados() {
 
 // =================== algoritmos ===============================
 void Grafos::Dijkstra(Vertice* from, Vertice* to) {
+    Vertice* act = from;
+    ArrayList<Vertice*>* etiquetas;
+    Vertice* lowest = nullptr;
+    act->setEtiqueta(new Etiqueta{ 0, nullptr, 0 });
+    etiquetas->set(act);
+    while (act != to)
+    {
+        act->setVisitado(true);
+        for (int i = 0; i < act->getAristas()->getSize(); i++)
+        {
+            Arista* element = act->getAristas()->get(i);
+            if (element->getVertice()->getEtiqueta() != nullptr) continue;
+            element->getVertice()->setEtiqueta(new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 });
+            etiquetas->set(element->getVertice());
+        }
+        for (int i = 0; i < etiquetas->getSize(); i++)
+        {
+            if (lowest == nullptr) lowest = etiquetas->get(i);
+            else
+            {
+                lowest = (etiquetas->get(i)->getEtiqueta()->dist <= lowest->getEtiqueta()->dist ? etiquetas->get(i) : lowest);
+            }
+        }
+    }
 
 }
 void Grafos::Warshall(Vertice* from, Vertice* to) {

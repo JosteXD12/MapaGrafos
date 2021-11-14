@@ -25,6 +25,8 @@ void Grafos::CargarObjetos() {
 	textoBtn[5]->setFillColor(Color(52, 91, 99));
 
 	box = setRectangulo(128,32,16,208);
+	box.setOutlineColor(Color(100, 175, 99));
+	box.setOutlineThickness(4);
 	box_txt.setPosition(16, 208);
 	box_txt.setFont(*fuente);
 	box_txt.setCharacterSize(18);
