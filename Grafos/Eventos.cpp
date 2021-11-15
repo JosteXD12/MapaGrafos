@@ -332,8 +332,16 @@ void Grafos::Kruskal() {
 	Arista* baja = nullptr;
 
 
+	ArrayList<Arista*>* AuxList = new ArrayList<Arista*>();
+	ArrayList<Vertice*>* A = new ArrayList<Vertice*>();
+	ArrayList<Vertice*>* B = new ArrayList<Vertice*>();
+	ArrayList<Arista*>* result = new ArrayList<Arista*>();
+	Arista* obtArista = nullptr;
+	Arista* baja = nullptr;
+
+
 	lista_aristas->clear();
-	for (int i = 0; i < lista_vertices->getSize(); i++) {
+	for (int i = 0; i < lista_vertices->getSize();i++) {
 		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
 			lista_aristas->set(lista_vertices->get(i)->getAristas()->get(j));
 		}
@@ -384,4 +392,3 @@ void Grafos::Kruskal() {
 		}
 	}
 }
-
