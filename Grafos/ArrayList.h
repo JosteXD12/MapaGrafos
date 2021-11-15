@@ -103,13 +103,16 @@ public:
 		}
 		return false;
 	}
-	void clear()
+	void Delete()
 	{
 		for (int i = 0; i < size; i++)
 		{
 			drop(i);
 			i--;
 		}
+		init = nullptr, iterator = nullptr, end = nullptr, size = 0;
+	}
+	void clear() {
 		init = nullptr, iterator = nullptr, end = nullptr, size = 0;
 	}
 	bool drop(int index)

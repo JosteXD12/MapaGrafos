@@ -53,6 +53,7 @@ private:
 	bool visitado;
 	ArrayList<Arista*>* aristas;
 	Etiqueta* etiqueta;
+	char grupo;
 public:
 	Vertice(float xpos, float ypos, float width, float height, char id);
 	char getId();
@@ -61,5 +62,7 @@ public:
 	ArrayList<Arista*>* getAristas();
 	void setEtiqueta(Etiqueta* etiqueta);
 	Etiqueta* getEtiqueta();
+	char getGrupo();
+	void setGrupo(char grupo);
 };
 

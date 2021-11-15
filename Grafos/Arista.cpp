@@ -39,6 +39,16 @@ Etiqueta* Vertice::getEtiqueta()
 	return etiqueta;
 }
 
+char Vertice::getGrupo()
+{
+	return grupo;
+}
+
+void Vertice::setGrupo(char grupo)
+{
+	this->grupo = grupo;
+}
+
 
 Arista::Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Vertice* from, Vertice* to)
 {
