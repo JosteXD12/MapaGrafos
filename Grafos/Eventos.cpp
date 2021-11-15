@@ -282,70 +282,63 @@ void Grafos::Prim() {
 void Grafos::Kruskal() {
 
 
-	string result = "";
 	ArrayList<Arista*>* AuxList = new ArrayList<Arista*>();
-	ArrayList<Arista*>* list_kruskal = new ArrayList<Arista*>();
-	Arista* obt = nullptr;
-	for(int i = 0; i < lista_vertices->getSize(); i++)
-	{
-		for (int j = 0; lista_vertices->get(i)->getAristas()->getSize(); j++)
-		{
-			AuxList->set(lista_vertices->get(i)->getAristas()->get(j));
+	ArrayList<Vertice*>* A = new ArrayList<Vertice*>();
+	ArrayList<Vertice*>* B = new ArrayList<Vertice*>();
+	ArrayList<Arista*>* result = new ArrayList<Arista*>();
+	Arista* obtArista = nullptr;
+	Arista* baja = nullptr;
+
+
+	lista_aristas->clear();
+	for (int i = 0; i < lista_vertices->getSize();i++) {
+		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
+			lista_aristas->set(lista_vertices->get(i)->getAristas()->get(j));
 		}
 	}
-	while (true)
-	{
-		obt = nullptr;
-		for (int i = 0; i < AuxList->getSize(); i++)
-		{
-			if (AuxList->get(i)->isVisitado()) continue;
-			if (obt == nullptr) obt = AuxList->get(i);
-			if (obt->getPeso() >= AuxList->get(i)->getPeso())
-			{
-				obt = AuxList->get(i);
-			}
-		}
-		if (obt == nullptr) break;
-		obt->setVistado(true);
-		list_kruskal->set(obt);
+
+	A->set(lista_vertices->get(0));
+	lista_vertices->get(0)->setGrupo('A');
+	lista_vertices->get(0)->setVisitado(true);
+
+	for (int i = 1; i < lista_vertices->getSize(); i++) {
+		B->set(lista_vertices->get(i));
 	}
 
+	while (true) {
 
-
-	/*while (X < n) {
-		cout << lista_vertices->get(0)->isVisitado();
-		for (int N = 0; N < n; N++) {
-			if (lista_vertices->get(N)->getAristas()->getSize() != 0)
-			{
-				if (obt->getAristas()->get(0)->getPeso() > lista_vertices->get(N)->getAristas()->get(0)->getPeso()) {
-
-					if (!lista_vertices->get(N)->isVisitado()) {
-						obt = lista_vertices->get(N);
-					}
-
-
-				}
+		AuxList->clear();
+		for (int i = 0; i < lista_aristas->getSize(); i++) {
+			obtArista = lista_aristas->get(i);
+			if (obtArista->getFrom()->getGrupo() != obtArista->getTo()->getGrupo()) {
+				AuxList->set(obtArista);
 			}
 		}
-		for (int i = 0; i < n; i++) {
-			if (obt == lista_vertices->get(i)) {
-				lista_vertices->get(i)->setVisitado(true);
+		baja = nullptr;
+		for (int i = 0; i < AuxList->getSize(); i++) {
+			if (AuxList->get(i)->getFrom()->isVisitado()) {
+				continue;
+			}
 
-				cout << "1" << endl;
+			if (baja == nullptr) {
+				baja = AuxList->get(i);
+			}
+
+			if (AuxList->get(i)->getPeso() <= baja->getPeso()) {
+				baja = AuxList->get(i);
 			}
 		}
-		AuxList->set(obt);
-		cout << AuxList->get(X)->getId() << endl;
-		for (int i = 0; i < n; i++) {
-			if (lista_vertices->get(i)->getAristas()->getSize() != 0)
-			{
-				if (obt->getAristas()->get(0)->getPeso() < lista_vertices->get(i)->getAristas()->get(0)->getPeso()) {
-					obt = lista_vertices->get(i);
-				}
+		if (baja == nullptr) {
+			break;
+		}
+		baja->getFrom()->setGrupo('A');
+		baja->setVistado(true);
+	}
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
+			if (lista_vertices->get(i)->getAristas()->get(j)->getFrom()->getGrupo() == lista_vertices->get(i)->getAristas()->get(j)->getTo()->getGrupo()) {
+				result->set(lista_vertices->get(i)->getAristas()->get(j));
 			}
 		}
-		X++;
-
-
-	}*/
+	}
 }
