@@ -70,9 +70,14 @@ private:
 	bool agregarVertice=false;
 	bool seleccionarVertice=false;
 	bool activarTexbox = false;
+	bool seleccionarDijkstra = false;
+	bool seleccionarWarsh = false;
 	ArrayList<string>* rutas_cortas= new ArrayList<string>();
 	string ruta_principal;
 	RectangleShape box;
 	Text box_txt;
 	String y;
+
+	ArrayList<RectangleShape*>* boxArista= new ArrayList<RectangleShape*>;
+	ArrayList<Text*>* txtArista = new ArrayList<Text*>;
 };

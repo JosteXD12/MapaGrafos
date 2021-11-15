@@ -56,6 +56,21 @@ void Grafos::Eventos() {
 					activarTexbox = true;
 				}
 			}
+			if (seleccionarDijkstra == true) {
+				verticesSeleccionados();
+				if (selec_algorit[1] != nullptr) {
+					seleccionarDijkstra = false;
+					Dijkstra(selec_algorit[0], selec_algorit[1]);
+				}
+
+			}
+			if (seleccionarWarsh == true) {
+				verticesSeleccionados();
+				if (selec_algorit[1] != nullptr) {
+					seleccionarWarsh = false;
+					Warshall(selec_algorit[0], selec_algorit[1]);
+				}
+			}
 			//================== Botones ======================
 			switch (ColisionMouse())
 			{
@@ -67,10 +82,11 @@ void Grafos::Eventos() {
 				break;
 
 			case 3:
-				Dijkstra(selec_algorit[0], selec_algorit[1]);
+				seleccionarDijkstra = true;
 				break;
 			case 4:
-				Warshall(selec_algorit[0], selec_algorit[1]);
+				seleccionarWarsh = true;
+				break;
 
 			case 5:
 				Prim();
@@ -110,6 +126,11 @@ void Grafos::Eventos() {
 					int Ipeso;
 					istringstream(box_txt.getString()) >> Ipeso;
 					selec_algorit[0]->getAristas()->get(0)->setPeso(Ipeso);
+					boxArista->set(new RectangleShape(Vector2f(30, 15)));
+					boxArista->get(boxArista->getSize() - 1)->setPosition(((selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2), ((selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2));
+					txtArista->set(new Text(to_string(selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->getPeso()),*fuente,15));
+					txtArista->get(boxArista->getSize() - 1)->setPosition(boxArista->get(boxArista->getSize() - 1)->getPosition().x, boxArista->get(boxArista->getSize() - 1)->getPosition().y-2);
+					txtArista->get(boxArista->getSize() - 1)->setFillColor(Color::Black);
 				}
 
 				// ==========    vaciar   ====================
@@ -119,7 +140,15 @@ void Grafos::Eventos() {
 				selec_algorit[1] = nullptr;
 				activarTexbox = false;
 				select_grafo = nullptr;
+				seleccionarVertice = false;
+				seleccionarDijkstra = false;
+				seleccionarWarsh = false;
 				box.setOutlineColor(Color(100, 175, 99));
+				boton[1].setOutlineColor(Color(100, 175, 99));
+				boton[2].setOutlineColor(Color(100, 175, 99));
+				boton[3].setOutlineColor(Color(100, 175, 99));
+				boton[4].setOutlineColor(Color(100, 175, 99));
+				boton[5].setOutlineColor(Color(100, 175, 99));
 			}
 		}
 	}
@@ -148,6 +177,7 @@ int Grafos::ColisionMouse() {
 		return 1;
 	}
 	if (boton[1].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[1].setOutlineColor(Color::Yellow);
 		return 2;
 	}
 
@@ -155,18 +185,22 @@ int Grafos::ColisionMouse() {
 
 	// btnDijkstra
 	if (boton[2].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[2].setOutlineColor(Color::Yellow);
 		return 3;
 	}
 	// warkshall
 	if (boton[3].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[3].setOutlineColor(Color::Yellow);
 		return 4;
 	}
 	// Prim
 	if (boton[4].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[4].setOutlineColor(Color::Yellow);
 		return 5;
 	}
 	// Kruskal:
 	if (boton[5].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[5].setOutlineColor(Color::Yellow);
 		return 6;
 	}
 }
@@ -271,81 +305,83 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	{
 		ss += ruta_principal[j];
 	}
+
 	ruta_principal = ss;
 }
+
+
+
 void Grafos::Warshall(Vertice* from, Vertice* to) {
 
 }
+
+
+
 void Grafos::Prim() {
 	return Kruskal();
 }
+
+
+
 void Grafos::Kruskal() {
-
-
-	string result = "";
 	ArrayList<Arista*>* AuxList = new ArrayList<Arista*>();
-	ArrayList<Arista*>* list_kruskal = new ArrayList<Arista*>();
-	Arista* obt = nullptr;
-	for(int i = 0; i < lista_vertices->getSize(); i++)
-	{
-		for (int j = 0; lista_vertices->get(i)->getAristas()->getSize(); j++)
-		{
-			AuxList->set(lista_vertices->get(i)->getAristas()->get(j));
+	ArrayList<Vertice*>* A = new ArrayList<Vertice*>();
+	ArrayList<Vertice*>* B = new ArrayList<Vertice*>();
+	ArrayList<Arista*>* result = new ArrayList<Arista*>();
+	Arista* obtArista = nullptr;
+	Arista* baja = nullptr;
+
+
+	lista_aristas->clear();
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
+			lista_aristas->set(lista_vertices->get(i)->getAristas()->get(j));
 		}
 	}
-	while (true)
-	{
-		obt = nullptr;
-		for (int i = 0; i < AuxList->getSize(); i++)
-		{
-			if (AuxList->get(i)->isVisitado()) continue;
-			if (obt == nullptr) obt = AuxList->get(i);
-			if (obt->getPeso() >= AuxList->get(i)->getPeso())
-			{
-				obt = AuxList->get(i);
-			}
-		}
-		if (obt == nullptr) break;
-		obt->setVistado(true);
-		list_kruskal->set(obt);
+
+	A->set(lista_vertices->get(0));
+	lista_vertices->get(0)->setGrupo('A');
+	lista_vertices->get(0)->setVisitado(true);
+
+	for (int i = 1; i < lista_vertices->getSize(); i++) {
+		B->set(lista_vertices->get(i));
 	}
 
+	while (true) {
 
-
-	/*while (X < n) {
-		cout << lista_vertices->get(0)->isVisitado();
-		for (int N = 0; N < n; N++) {
-			if (lista_vertices->get(N)->getAristas()->getSize() != 0)
-			{
-				if (obt->getAristas()->get(0)->getPeso() > lista_vertices->get(N)->getAristas()->get(0)->getPeso()) {
-
-					if (!lista_vertices->get(N)->isVisitado()) {
-						obt = lista_vertices->get(N);
-					}
-
-
-				}
+		AuxList->clear();
+		for (int i = 0; i < lista_aristas->getSize(); i++) {
+			obtArista = lista_aristas->get(i);
+			if (obtArista->getFrom()->getGrupo() != obtArista->getTo()->getGrupo()) {
+				AuxList->set(obtArista);
 			}
 		}
-		for (int i = 0; i < n; i++) {
-			if (obt == lista_vertices->get(i)) {
-				lista_vertices->get(i)->setVisitado(true);
+		baja = nullptr;
+		for (int i = 0; i < AuxList->getSize(); i++) {
+			if (AuxList->get(i)->getFrom()->isVisitado()) {
+				continue;
+			}
 
-				cout << "1" << endl;
+			if (baja == nullptr) {
+				baja = AuxList->get(i);
+			}
+
+			if (AuxList->get(i)->getPeso() <= baja->getPeso()) {
+				baja = AuxList->get(i);
 			}
 		}
-		AuxList->set(obt);
-		cout << AuxList->get(X)->getId() << endl;
-		for (int i = 0; i < n; i++) {
-			if (lista_vertices->get(i)->getAristas()->getSize() != 0)
-			{
-				if (obt->getAristas()->get(0)->getPeso() < lista_vertices->get(i)->getAristas()->get(0)->getPeso()) {
-					obt = lista_vertices->get(i);
-				}
+		if (baja == nullptr) {
+			break;
+		}
+		baja->getFrom()->setGrupo('A');
+		baja->setVistado(true);
+	}
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
+			if (lista_vertices->get(i)->getAristas()->get(j)->getFrom()->getGrupo() == lista_vertices->get(i)->getAristas()->get(j)->getTo()->getGrupo()) {
+				result->set(lista_vertices->get(i)->getAristas()->get(j));
 			}
 		}
-		X++;
-
-
-	}*/
+	}
 }
+

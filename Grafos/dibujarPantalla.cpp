@@ -22,6 +22,11 @@ void Grafos::dibujarPantalla(){
 		pantalla->draw(*textoVertices[contador]);
 		contador++;
 	}
+	for (int i = 0; i < boxArista->getSize(); i++) {
+		pantalla->draw(*boxArista->get(i));
+		pantalla->draw(*txtArista->get(i));
+	}
+
 	pantalla->draw(boton[0]);//Dibujar aristas o vertices
 	pantalla->draw(boton[1]);// Agregar peso
 
