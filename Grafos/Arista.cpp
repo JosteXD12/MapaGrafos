@@ -39,14 +39,16 @@ Etiqueta* Vertice::getEtiqueta()
 	return etiqueta;
 }
 
-Arista::Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Vertice* vertice)
+
+Arista::Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Vertice* from, Vertice* to)
 {
 	this->ini_x = ini_x;
 	this->ini_y = ini_y;
 	this->end_x = end_x;
 	this->end_y = end_y;
 	this->peso = peso;
-	this->vertice = vertice;
+	this->from = from;
+	this->to = to;
 }
 
 float Arista::getIni_x()
@@ -74,9 +76,24 @@ int Arista::getPeso()
 	return peso;
 }
 
-Vertice* Arista::getVertice()
+Vertice* Arista::getFrom()
 {
-	return vertice;
+	return from;
+}
+
+Vertice* Arista::getTo()
+{
+	return to;
+}
+
+void Arista::setFrom(Vertice* from)
+{
+	this->from = from;
+}
+
+void Arista::setTo(Vertice* to)
+{
+	this->to = to;
 }
 
 void Arista::setIni_x(float ini_x)
@@ -104,7 +121,22 @@ void Arista::setPeso(int peso)
 	this->peso = peso;
 }
 
-void Arista::setVertice(Vertice* vertice)
+void Arista::setVistado(bool visitado)
 {
-	this->vertice = vertice;
+	this->visitado = visitado;
+}
+
+bool Arista::isVisitado()
+{
+	return visitado;
+}
+
+bool Arista::isBorrado()
+{
+	return borrado;
+}
+
+void Arista::setBorrado(bool borrado)
+{
+	this->borrado = borrado;
 }

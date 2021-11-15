@@ -12,23 +12,32 @@ private:
 	float end_x;
 	float end_y;
 	int peso;
-	Vertice* vertice;
+	Vertice* from;
+	Vertice* to;
+	bool visitado;
+	bool borrado;
 public:
-	Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Vertice* vertice);
+	Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Vertice* from, Vertice* to);
 
 	float getIni_x();
 	float getIni_y();
 	float getEnd_x();
 	float getEnd_y();
 	int getPeso();
-	Vertice* getVertice();
+	Vertice* getFrom();
+	Vertice* getTo();
+	void setFrom(Vertice* from);
+	void setTo(Vertice* to);
 
 	void setIni_x(float ini_x);
 	void setIni_y(float ini_y);
 	void setEnd_x(float end_x);
 	void setEnd_y(float end_y);
 	void setPeso(int peso);
-	void setVertice(Vertice* vertice);
+	void setVistado(bool visitado);
+	bool isVisitado();
+	bool isBorrado();
+	void setBorrado(bool borrado);
 };
 
 struct Etiqueta

@@ -23,7 +23,7 @@ void Grafos::Eventos() {
 
 				if (select_grafo != nullptr)
 				{
-					select_grafo->getAristas()->set(new Arista(select_grafo->getPosition().x + 10, select_grafo->getPosition().y + 10, lista_vertices->get(n)->getPosition().x + 10, lista_vertices->get(n)->getPosition().y + 10, 0, lista_vertices->get(n)));
+					select_grafo->getAristas()->set(new Arista(select_grafo->getPosition().x + 10, select_grafo->getPosition().y + 10, lista_vertices->get(n)->getPosition().x + 10, lista_vertices->get(n)->getPosition().y + 10, 0, select_grafo, lista_vertices->get(n)));
 				}
 				else
 				{
@@ -38,7 +38,7 @@ void Grafos::Eventos() {
 						cout << "entro2" << endl;
 						selec_algorit[1] = lista_vertices->get(n);
 
-						selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[1]));
+						selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[0], selec_algorit[1]));
 						selec_algorit[1]->setFillColor(Color::Yellow);
 						activarTexbox = true;
 					}
@@ -52,7 +52,7 @@ void Grafos::Eventos() {
 				verticesSeleccionados();
 				if (selec_algorit[1] != nullptr) {
 					seleccionarVertice = false;
-					selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[1]));
+					selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[0], selec_algorit[1]));
 					activarTexbox = true;
 				}
 			}
@@ -207,19 +207,19 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 		{
 			temp = nullptr;
 			element = act->getAristas()->get(i);
-			if (element->getVertice()->isVisitado()) continue;
-			if (element->getVertice()->getEtiqueta() != nullptr)
+			if (element->getTo()->isVisitado()) continue;
+			if (element->getTo()->getEtiqueta() != nullptr)
 			{
 				temp = new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 };
-				if (element->getVertice()->getEtiqueta()->dist >= temp->dist)
+				if (element->getTo()->getEtiqueta()->dist >= temp->dist)
 				{
-					element->getVertice()->setEtiqueta(temp);
+					element->getTo()->setEtiqueta(temp);
 				}
 			}
 			else
 			{
-				element->getVertice()->setEtiqueta(new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 });
-				etiquetas->set(element->getVertice());
+				element->getTo()->setEtiqueta(new Etiqueta{ element->getPeso() + act->getEtiqueta()->dist, act, act->getEtiqueta()->iter + 1 });
+				etiquetas->set(element->getTo());
 			}
 		}
 		for (int i = 0; i < etiquetas->getSize(); i++)
@@ -277,16 +277,42 @@ void Grafos::Warshall(Vertice* from, Vertice* to) {
 
 }
 void Grafos::Prim() {
-
+	return Kruskal();
 }
 void Grafos::Kruskal() {
 
 
-	int X = 0;
+	string result = "";
+	ArrayList<Arista*>* AuxList = new ArrayList<Arista*>();
+	ArrayList<Arista*>* list_kruskal = new ArrayList<Arista*>();
+	Arista* obt = nullptr;
+	for(int i = 0; i < lista_vertices->getSize(); i++)
+	{
+		for (int j = 0; lista_vertices->get(i)->getAristas()->getSize(); j++)
+		{
+			AuxList->set(lista_vertices->get(i)->getAristas()->get(j));
+		}
+	}
+	while (true)
+	{
+		obt = nullptr;
+		for (int i = 0; i < AuxList->getSize(); i++)
+		{
+			if (AuxList->get(i)->isVisitado()) continue;
+			if (obt == nullptr) obt = AuxList->get(i);
+			if (obt->getPeso() >= AuxList->get(i)->getPeso())
+			{
+				obt = AuxList->get(i);
+			}
+		}
+		if (obt == nullptr) break;
+		obt->setVistado(true);
+		list_kruskal->set(obt);
+	}
 
-	ArrayList<Vertice*>* AuxList = new ArrayList<Vertice*>();
-	Vertice* obt = lista_vertices->get(0);
-	while (X < n) {
+
+
+	/*while (X < n) {
 		cout << lista_vertices->get(0)->isVisitado();
 		for (int N = 0; N < n; N++) {
 			if (lista_vertices->get(N)->getAristas()->getSize() != 0)
@@ -321,5 +347,5 @@ void Grafos::Kruskal() {
 		X++;
 
 
-	}
+	}*/
 }
