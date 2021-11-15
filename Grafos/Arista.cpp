@@ -21,7 +21,7 @@ bool Vertice::isVisitado()
 
 void Vertice::setVisitado(bool visit)
 {
-	visitado = visit;
+	this->visitado = visit;
 }
 
 ArrayList<Arista*>* Vertice::getAristas()
