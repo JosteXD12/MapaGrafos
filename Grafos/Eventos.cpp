@@ -64,6 +64,8 @@ void Grafos::Eventos() {
 				if (selec_algorit[1] != nullptr) {
 					seleccionarDijkstra = false;
 					Dijkstra(selec_algorit[0], selec_algorit[1]);
+					selec_algorit[0] = nullptr;
+					selec_algorit[1] = nullptr;
 				}
 
 			}
@@ -72,6 +74,8 @@ void Grafos::Eventos() {
 				if (selec_algorit[1] != nullptr) {
 					seleccionarWarsh = false;
 					Warshall(selec_algorit[0], selec_algorit[1]);
+					selec_algorit[0] = nullptr;
+					selec_algorit[1] = nullptr;
 				}
 			}
 			//================== Botones ======================
@@ -151,7 +155,9 @@ void Grafos::Eventos() {
 					int Ipeso;
 					istringstream(box_txt.getString()) >> Ipeso;
 					selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize()-1)->setPeso(Ipeso);
-					selec_algorit[1]->getAristas()->get(selec_algorit[1]->getAristas()->getSize() - 1)->setPeso(Ipeso);
+					if (!dirigido) {
+						selec_algorit[1]->getAristas()->get(selec_algorit[1]->getAristas()->getSize() - 1)->setPeso(Ipeso);
+					}
 					boxArista->set(new RectangleShape(Vector2f(10, 10)));
 					int x = (selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2;
 					int y = (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2;
@@ -350,6 +356,9 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	}
 
 	ruta_principal = ss;
+	for (int i = 0; i < rutas_cortas->getSize(); i++) {
+		cout << rutas_cortas->get(i) << endl;
+	}
 }
 
 
