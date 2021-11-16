@@ -1,6 +1,7 @@
 #pragma once
 #include <fstream>
 #include <iostream>
+#include <functional>
 using namespace sf;
 using namespace std;
 // Clase arraylist
@@ -126,6 +127,10 @@ public:
 	void clear() {
 		init = nullptr, iterator = nullptr, end = nullptr, size = 0;
 	}
+	bool isEmpty()
+	{
+		return (size == 0);
+	}
 	bool drop(int index)
 	{
 		Node<T>* aux = nullptr;
@@ -243,6 +248,13 @@ public:
 			abort();
 		}
 		return true;
+	}
+	void foreach(function<void (T element)> instruction)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			instruction(get(i));
+		}
 	}
 };
 

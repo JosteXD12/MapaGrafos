@@ -28,7 +28,7 @@ public:
 	Vertice* getTo();
 	void setFrom(Vertice* from);
 	void setTo(Vertice* to);
-
+	bool Equals(Arista* this_arista);
 	void setIni_x(float ini_x);
 	void setIni_y(float ini_y);
 	void setEnd_x(float end_x);

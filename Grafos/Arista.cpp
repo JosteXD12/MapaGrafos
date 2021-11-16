@@ -108,6 +108,11 @@ void Arista::setTo(Vertice* to)
 	this->to = to;
 }
 
+bool Arista::Equals(Arista* this_arista)
+{
+	return (this->from == this->getTo() && this->to == this->getFrom());
+}
+
 void Arista::setIni_x(float ini_x)
 {
 	this->ini_x = ini_x;

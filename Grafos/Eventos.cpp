@@ -1,4 +1,5 @@
 #include "main.h"
+#include <queue>
 
 
 
@@ -371,7 +372,29 @@ void Grafos::Warshall(Vertice* from, Vertice* to) {
 
 
 void Grafos::Prim() {
-	return Kruskal();
+	static Vertice* start_node;
+	static priority_queue<pair<int, Vertice*>> ordered_list;
+	static pair<int, Vertice*> current;
+	static int sum;
+	sum = 0;
+	start_node= lista_vertices->get(0);
+	ordered_list = priority_queue<pair<int, Vertice*>>();
+	ordered_list.push({ 0, start_node });
+	while (!ordered_list.empty())
+	{
+		current = ordered_list.top();
+		ordered_list.pop();
+		if (current.second->isVisitado()) continue;
+		cout << "{ " << (current.first) * -1 << " | " << current.second->getId() << " }" << endl;
+		current.second->setVisitado(true);
+		sum -= current.first;
+		current.second->getAristas()->foreach([](Arista* element) -> void
+		{
+			ordered_list.push({ (element->getPeso()) * -1, element->getTo() });
+
+		});
+	}
+	cout << "Coste Minimo: " << sum<<endl;
 }
 
 
@@ -392,10 +415,9 @@ void Grafos::Kruskal() {
 
 	A->set(lista_vertices->get(0));
 	lista_vertices->get(0)->setGrupo('A');
-	lista_vertices->get(0)->setVisitado(true);
-
 	for (int i = 1; i < lista_vertices->getSize(); i++) {
 		B->set(lista_vertices->get(i));
+		lista_vertices->get(i)->setGrupo('B');
 	}
 
 	while (true) {
@@ -403,16 +425,15 @@ void Grafos::Kruskal() {
 		AuxList->clear();
 		for (int i = 0; i < lista_aristas->getSize(); i++) {
 			obtArista = lista_aristas->get(i);
-			if (obtArista->getFrom()->getGrupo() != obtArista->getTo()->getGrupo()) {
+			if (obtArista->isBorrado()) continue;
+			if (obtArista->isVisitado()) continue;
+			if (obtArista->getFrom()->getGrupo() == 'A' && obtArista->getTo()->getGrupo() == 'B') {
 				AuxList->set(obtArista);
 			}
 		}
+		if (AuxList->isEmpty()) break;
 		baja = nullptr;
 		for (int i = 0; i < AuxList->getSize(); i++) {
-			if (AuxList->get(i)->getFrom()->isVisitado()) {
-				continue;
-			}
-
 			if (baja == nullptr) {
 				baja = AuxList->get(i);
 			}
@@ -421,23 +442,45 @@ void Grafos::Kruskal() {
 				baja = AuxList->get(i);
 			}
 		}
-		if (baja == nullptr) {
-			break;
-		}
+		baja->getFrom()->setVisitado(true);
 		baja->getFrom()->setGrupo('A');
+		baja->getTo()->setGrupo('A');
 		baja->setVistado(true);
+		for (int i = 0; i < baja->getTo()->getAristas()->getSize(); i++)
+		{
+			if (baja->getTo()->getAristas()->get(i)->Equals(baja))
+			{
+				baja->getTo()->getAristas()->get(i)->setVistado(true);
+				break;
+			}
+		}
 		for (int i = 0; i < baja->getFrom()->getAristas()->getSize(); i++)
 		{
-			if (baja->getFrom()->getGrupo() == baja->getFrom()->getAristas()->get(i)->getTo()->getGrupo() && !baja->getFrom()->getAristas()->get(i)->isVisitado())
+			if (baja->getFrom()->getAristas()->get(i)->getTo()->getGrupo() == 'A' && !baja->getFrom()->getAristas()->get(i)->isVisitado())
 			{
 				baja->getFrom()->getAristas()->get(i)->setBorrado(true);
+				for (int h = 0; h < baja->getFrom()->getAristas()->get(i)->getTo()->getAristas()->getSize(); h++)
+				{
+					if (baja->getFrom()->getAristas()->get(i)->Equals(baja->getFrom()->getAristas()->get(i)->getTo()->getAristas()->get(h)))
+					{
+						baja->getFrom()->getAristas()->get(i)->getTo()->getAristas()->get(h)->setBorrado(true);
+						break;
+					}
+				}
 			}
 			for (int j = 0; j < baja->getFrom()->getAristas()->get(i)->getTo()->getAristas()->getSize(); j++)
 			{
 				Vertice* aux = baja->getFrom()->getAristas()->get(i)->getTo();
-				if (aux->getAristas()->get(j)->getTo()->getGrupo() == 'A' && !aux->getAristas()->get(j)->isVisitado())
+				if (aux->getAristas()->get(j)->getTo()->getGrupo() == 'A' && !aux->getAristas()->get(j)->isVisitado() && aux->getAristas()->get(j)->getTo()!=baja->getFrom())
 				{
 					aux->getAristas()->get(j)->setBorrado(true);
+					for (int u = 0; u < aux->getAristas()->get(j)->getTo()->getAristas()->getSize(); u++)
+					{
+						if (aux->getAristas()->get(j)->getTo()->getAristas()->get(u)->Equals(aux->getAristas()->get(j)))
+						{
+							aux->getAristas()->get(j)->getTo()->getAristas()->get(u)->setBorrado(true);
+						}
+					}
 				}
 			}
 		}
@@ -450,6 +493,6 @@ void Grafos::Kruskal() {
 		}
 	}
 	for (int i = 0; i < result->getSize(); i++) {
-		result->get(i);
+		cout << result->get(i)->getFrom()->getId() << " - " << result->get(i)->getTo()->getId() << endl;
 	}
 }
