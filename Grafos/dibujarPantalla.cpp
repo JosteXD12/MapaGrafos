@@ -34,12 +34,14 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(boton[3]);// btnWarshall
 	pantalla->draw(boton[4]);// btnPrim
 	pantalla->draw(boton[5]);// btnKruskal:
+	pantalla->draw(boton[6]);
 	pantalla->draw(*textoBtn[0]);
 	pantalla->draw(*textoBtn[1]);
 	pantalla->draw(*textoBtn[2]);
 	pantalla->draw(*textoBtn[3]);
 	pantalla->draw(*textoBtn[4]);
 	pantalla->draw(*textoBtn[5]);
+	pantalla->draw(*textoBtn[6]);
 	pantalla->draw(box);
 	pantalla->draw(box_txt);
 	pantalla->display();

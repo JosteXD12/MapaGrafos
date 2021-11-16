@@ -80,4 +80,5 @@ private:
 
 	ArrayList<RectangleShape*>* boxArista= new ArrayList<RectangleShape*>;
 	ArrayList<Text*>* txtArista = new ArrayList<Text*>;
+	ArrayList<Arista*>* result = new ArrayList<Arista*>();
 };

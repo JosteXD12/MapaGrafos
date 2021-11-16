@@ -94,6 +94,12 @@ void Grafos::Eventos() {
 			case 6:
 				Kruskal();
 				break;
+			case 7:
+				n = 0;
+				lista_vertices->deleteAll();
+				boxArista->deleteAll();
+				txtArista->deleteAll();
+				break;
 			default:
 				break;
 			}
@@ -202,6 +208,10 @@ int Grafos::ColisionMouse() {
 	if (boton[5].getGlobalBounds().intersects(hitboxMouse)) {
 		boton[5].setOutlineColor(Color::Yellow);
 		return 6;
+	}
+	if (boton[6].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[6].setOutlineColor(Color::Yellow);
+		return 7;
 	}
 }
 
@@ -327,7 +337,7 @@ void Grafos::Kruskal() {
 	ArrayList<Arista*>* AuxList = new ArrayList<Arista*>();
 	ArrayList<Vertice*>* A = new ArrayList<Vertice*>();
 	ArrayList<Vertice*>* B = new ArrayList<Vertice*>();
-	ArrayList<Arista*>* result = new ArrayList<Arista*>();
+	
 	Arista* obtArista = nullptr;
 	Arista* baja = nullptr;
 	lista_aristas->clear();
@@ -395,5 +405,8 @@ void Grafos::Kruskal() {
 			result->set(lista_vertices->get(i)->getAristas()->get(j));
 			break;
 		}
+	}
+	for (int i = 0; i < result->getSize(); i++) {
+		result->get(i);
 	}
 }

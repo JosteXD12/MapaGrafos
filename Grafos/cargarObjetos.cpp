@@ -24,6 +24,9 @@ void Grafos::CargarObjetos() {
 	textoBtn[5] = new Text("Kruskal", *fuente, 24);
 	textoBtn[5]->setFillColor(Color(52, 91, 99));
 
+	textoBtn[6] = new Text("Limpiar", *fuente, 24);
+	textoBtn[6]->setFillColor(Color(52, 91, 99));
+
 	box = setRectangulo(128,32,16,208);
 	box.setOutlineColor(Color(100, 175, 99));
 	box.setOutlineThickness(4);
@@ -75,4 +78,10 @@ void Grafos::CargarObjetos() {
 	boton[5].setOutlineColor(Color(100, 175, 99));
 	boton[5].setOutlineThickness(4);
 	textoBtn[5]->setPosition(1238, 256);
+
+	boton[6] = setRectangulo(128, 32, 1222, 304);
+	boton[6].setFillColor(Color(165, 225, 173));
+	boton[6].setOutlineColor(Color(100, 175, 99));
+	boton[6].setOutlineThickness(4);
+	textoBtn[6]->setPosition(1238, 304);
 }
