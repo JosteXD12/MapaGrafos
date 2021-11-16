@@ -61,7 +61,7 @@ void Grafos::Eventos() {
 			}
 			if (seleccionarDijkstra == true) {
 				verticesSeleccionados();
-				if (selec_algorit[1] != nullptr) {
+				if (selec_algorit[1] != nullptr&& selec_algorit[0] != nullptr) {
 					seleccionarDijkstra = false;
 					Dijkstra(selec_algorit[0], selec_algorit[1]);
 					selec_algorit[0] = nullptr;
@@ -246,7 +246,6 @@ int Grafos::ColisionMouse() {
 		return 6;
 	}
 	if (boton[6].getGlobalBounds().intersects(hitboxMouse)) {
-		boton[6].setOutlineColor(Color::Yellow);
 		return 7;
 	}
 	if (boton[7].getGlobalBounds().intersects(hitboxMouse)) {
@@ -359,6 +358,8 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	for (int i = 0; i < rutas_cortas->getSize(); i++) {
 		cout << rutas_cortas->get(i) << endl;
 	}
+	cout << "=========" << endl;
+	cout << ruta_principal << endl;
 }
 
 
