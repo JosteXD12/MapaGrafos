@@ -22,8 +22,10 @@ void Grafos::dibujarPantalla(){
 		pantalla->draw(*textoVertices[contador]);
 		contador++;
 	}
-	for (int i = 0; i < boxArista->getSize(); i++) {
-		pantalla->draw(*boxArista->get(i));
+	for (int i = 0; i < txtArista->getSize(); i++) {
+		if (dirigido) {
+			pantalla->draw(*boxArista->get(i));
+		}
 		pantalla->draw(*txtArista->get(i));
 	}
 
@@ -35,6 +37,7 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(boton[4]);// btnPrim
 	pantalla->draw(boton[5]);// btnKruskal:
 	pantalla->draw(boton[6]);
+	pantalla->draw(boton[7]);
 	pantalla->draw(*textoBtn[0]);
 	pantalla->draw(*textoBtn[1]);
 	pantalla->draw(*textoBtn[2]);
@@ -42,6 +45,7 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(*textoBtn[4]);
 	pantalla->draw(*textoBtn[5]);
 	pantalla->draw(*textoBtn[6]);
+	pantalla->draw(*textoBtn[7]);
 	pantalla->draw(box);
 	pantalla->draw(box_txt);
 	pantalla->display();

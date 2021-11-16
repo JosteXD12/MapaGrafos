@@ -39,6 +39,9 @@ void Grafos::Eventos() {
 						selec_algorit[1] = lista_vertices->get(n);
 
 						selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[0], selec_algorit[1]));
+						if (!dirigido) {
+							selec_algorit[1]->getAristas()->set(new Arista(selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, 0, selec_algorit[1], selec_algorit[0]));
+						}
 						selec_algorit[1]->setFillColor(Color::Yellow);
 						activarTexbox = true;
 					}
@@ -100,6 +103,22 @@ void Grafos::Eventos() {
 				boxArista->deleteAll();
 				txtArista->deleteAll();
 				break;
+
+			case 8:
+				dirigido = (dirigido ? false : true);
+				cout << dirigido << endl;
+				if (!dirigido) {
+					boton[7].setOutlineColor(Color(100, 175, 99));
+				}
+				if (dirigido) {
+					boton[7].setOutlineColor(Color::Yellow);
+				}
+				n = 0;
+				lista_vertices->deleteAll();
+				boxArista->deleteAll();
+				txtArista->deleteAll();
+				break;
+
 			default:
 				break;
 			}
@@ -132,11 +151,21 @@ void Grafos::Eventos() {
 					int Ipeso;
 					istringstream(box_txt.getString()) >> Ipeso;
 					selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize()-1)->setPeso(Ipeso);
-					boxArista->set(new RectangleShape(Vector2f(30, 15)));
-					boxArista->get(boxArista->getSize() - 1)->setPosition(((selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2), ((selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2));
-					txtArista->set(new Text(to_string(selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->getPeso()),*fuente,15));
-					txtArista->get(boxArista->getSize() - 1)->setPosition(boxArista->get(boxArista->getSize() - 1)->getPosition().x, boxArista->get(boxArista->getSize() - 1)->getPosition().y-2);
-					txtArista->get(boxArista->getSize() - 1)->setFillColor(Color::Black);
+					selec_algorit[1]->getAristas()->get(selec_algorit[1]->getAristas()->getSize() - 1)->setPeso(Ipeso);
+					boxArista->set(new RectangleShape(Vector2f(10, 10)));
+					int x = (selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2;
+					int y = (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2;
+					x = (x + selec_algorit[1]->getPosition().x) / 2;
+					y = (y + selec_algorit[1]->getPosition().y) / 2;
+					x = (x + selec_algorit[1]->getPosition().x) / 2;
+					y = (y + selec_algorit[1]->getPosition().y) / 2;
+					x = (x + selec_algorit[1]->getPosition().x) / 2;
+					y = (y + selec_algorit[1]->getPosition().y) / 2;
+
+					boxArista->get(boxArista->getSize() - 1)->setPosition(x,y);
+					txtArista->set(new Text(to_string(selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->getPeso()),*fuente,25));
+					txtArista->get(txtArista->getSize() - 1)->setPosition((selec_algorit[0]->getPosition().x+ selec_algorit[1]->getPosition().x )/2 , (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2);
+					txtArista->get(txtArista->getSize() - 1)->setFillColor(Color::Yellow);
 				}
 
 				// ==========    vaciar   ====================
@@ -155,6 +184,7 @@ void Grafos::Eventos() {
 				boton[3].setOutlineColor(Color(100, 175, 99));
 				boton[4].setOutlineColor(Color(100, 175, 99));
 				boton[5].setOutlineColor(Color(100, 175, 99));
+				boton[6].setOutlineColor(Color(100, 175, 99));
 			}
 		}
 	}
@@ -212,6 +242,9 @@ int Grafos::ColisionMouse() {
 	if (boton[6].getGlobalBounds().intersects(hitboxMouse)) {
 		boton[6].setOutlineColor(Color::Yellow);
 		return 7;
+	}
+	if (boton[7].getGlobalBounds().intersects(hitboxMouse)) {
+		return 8;
 	}
 }
 

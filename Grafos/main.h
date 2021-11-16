@@ -72,6 +72,7 @@ private:
 	bool activarTexbox = false;
 	bool seleccionarDijkstra = false;
 	bool seleccionarWarsh = false;
+	bool dirigido = false;
 	ArrayList<string>* rutas_cortas= new ArrayList<string>();
 	string ruta_principal;
 	RectangleShape box;
