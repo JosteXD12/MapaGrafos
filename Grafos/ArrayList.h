@@ -92,6 +92,17 @@ public:
 		}
 		return nullptr;
 	}
+	bool remove(T object)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (get(i) == object)
+			{
+				return remove(i);
+			}
+		}
+		return false;
+	}
 	bool drop(T object)
 	{
 		for (int i = 0; i < size; i++)
@@ -103,11 +114,11 @@ public:
 		}
 		return false;
 	}
-	void Delete()
+	void deleteAll()
 	{
 		for (int i = 0; i < size; i++)
 		{
-			drop(i);
+			remove(i);
 			i--;
 		}
 		init = nullptr, iterator = nullptr, end = nullptr, size = 0;
@@ -116,6 +127,58 @@ public:
 		init = nullptr, iterator = nullptr, end = nullptr, size = 0;
 	}
 	bool drop(int index)
+	{
+		Node<T>* aux = nullptr;
+		if (init != nullptr || index < size || index >= 0)
+		{
+			while (true)
+			{
+				if (index >= iterator->index)
+				{
+					if (index == iterator->index)
+					{
+						aux = iterator;
+						break;
+					}
+					else
+					{
+						iterator = iterator->next;
+					}
+				}
+				else if (index < iterator->index)
+				{
+					iterator = iterator->prev;
+				}
+			}
+			if (size == 1)
+			{
+				init = nullptr;
+				iterator = nullptr;
+				end = nullptr;
+			}
+			else if (init == iterator)
+			{
+				iterator->next->prev = nullptr;
+				init = iterator->next;
+				end = iterator->next;
+				iterator = iterator->next;
+			}
+			else if (end == aux)
+			{
+				end = end->prev;
+				iterator = end;
+				end->next = nullptr;
+			}
+			else
+			{
+				iterator->next->prev = iterator->prev;
+				iterator->prev->next = iterator->next;
+				iterator = iterator->prev;
+			}
+			fixIndexes();
+		}
+	}
+	bool remove(int index)
 	{
 		Node<T>* aux = nullptr;
 		if (init != nullptr || index < size || index >= 0)

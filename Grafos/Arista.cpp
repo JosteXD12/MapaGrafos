@@ -59,6 +59,8 @@ Arista::Arista(float ini_x, float ini_y, float end_x, float end_y, int peso, Ver
 	this->peso = peso;
 	this->from = from;
 	this->to = to;
+	borrado = false;
+	visitado = false;
 }
 
 float Arista::getIni_x()

@@ -125,7 +125,7 @@ void Grafos::Eventos() {
 				if (selec_algorit[1] != nullptr) {
 					int Ipeso;
 					istringstream(box_txt.getString()) >> Ipeso;
-					selec_algorit[0]->getAristas()->get(0)->setPeso(Ipeso);
+					selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize()-1)->setPeso(Ipeso);
 					boxArista->set(new RectangleShape(Vector2f(30, 15)));
 					boxArista->get(boxArista->getSize() - 1)->setPosition(((selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2), ((selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2));
 					txtArista->set(new Text(to_string(selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->getPeso()),*fuente,15));
@@ -330,16 +330,6 @@ void Grafos::Kruskal() {
 	ArrayList<Arista*>* result = new ArrayList<Arista*>();
 	Arista* obtArista = nullptr;
 	Arista* baja = nullptr;
-
-
-	ArrayList<Arista*>* AuxList = new ArrayList<Arista*>();
-	ArrayList<Vertice*>* A = new ArrayList<Vertice*>();
-	ArrayList<Vertice*>* B = new ArrayList<Vertice*>();
-	ArrayList<Arista*>* result = new ArrayList<Arista*>();
-	Arista* obtArista = nullptr;
-	Arista* baja = nullptr;
-
-
 	lista_aristas->clear();
 	for (int i = 0; i < lista_vertices->getSize();i++) {
 		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
@@ -383,12 +373,27 @@ void Grafos::Kruskal() {
 		}
 		baja->getFrom()->setGrupo('A');
 		baja->setVistado(true);
+		for (int i = 0; i < baja->getFrom()->getAristas()->getSize(); i++)
+		{
+			if (baja->getFrom()->getGrupo() == baja->getFrom()->getAristas()->get(i)->getTo()->getGrupo() && !baja->getFrom()->getAristas()->get(i)->isVisitado())
+			{
+				baja->getFrom()->getAristas()->get(i)->setBorrado(true);
+			}
+			for (int j = 0; j < baja->getFrom()->getAristas()->get(i)->getTo()->getAristas()->getSize(); j++)
+			{
+				Vertice* aux = baja->getFrom()->getAristas()->get(i)->getTo();
+				if (aux->getAristas()->get(j)->getTo()->getGrupo() == 'A' && !aux->getAristas()->get(j)->isVisitado())
+				{
+					aux->getAristas()->get(j)->setBorrado(true);
+				}
+			}
+		}
 	}
 	for (int i = 0; i < lista_vertices->getSize(); i++) {
 		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++) {
-			if (lista_vertices->get(i)->getAristas()->get(j)->getFrom()->getGrupo() == lista_vertices->get(i)->getAristas()->get(j)->getTo()->getGrupo()) {
-				result->set(lista_vertices->get(i)->getAristas()->get(j));
-			}
+			if (lista_vertices->get(i)->getAristas()->get(j)->isBorrado()) continue;
+			result->set(lista_vertices->get(i)->getAristas()->get(j));
+			break;
 		}
 	}
 }
