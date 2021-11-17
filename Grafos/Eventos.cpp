@@ -45,6 +45,7 @@ void Grafos::limpiar()
 	seleccionarVertice = false;
 	seleccionarDijkstra = false;
 	seleccionarWarsh = false;
+	seleccionarPrim = false;
 	box.setOutlineColor(Color(100, 175, 99));
 	boton[0].setOutlineColor(Color(100, 175, 99));
 	boton[1].setOutlineColor(Color(100, 175, 99));
@@ -343,6 +344,7 @@ void Grafos::Eventos() {
 				agregarVertice = false;
 				activarTexbox = false;
 				select_grafo = nullptr;
+				seleccionarPrim = false;
 				seleccionarVertice = false;
 				seleccionarDijkstra = false;
 				seleccionarWarsh = false;
@@ -521,7 +523,7 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 		if (seleccionarDijkstra) {
 			act->setFillColor(Color::Yellow);
 		}
-		act = act->getEtiqueta()->from;
+		act = act->getEtiqueta()->from; //
 	}
 	ruta_principal += act->getId();
 	for (int j = ruta_principal.length() - 1; j >= 0; j--)
