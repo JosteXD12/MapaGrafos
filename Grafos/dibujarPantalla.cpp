@@ -58,5 +58,6 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(*textoBtn[7]);
 	pantalla->draw(box);
 	pantalla->draw(box_txt);
+	pantalla->draw(resultados);
 	pantalla->display();
 }

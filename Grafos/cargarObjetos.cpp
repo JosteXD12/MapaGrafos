@@ -38,6 +38,11 @@ void Grafos::CargarObjetos() {
 	box_txt.setCharacterSize(18);
 	box_txt.setFillColor(Color::Black);
 
+	resultados.setPosition(16, 736);
+	resultados.setFont(*fuente);
+	resultados.setCharacterSize(18);
+	resultados.setFillColor(Color::White);
+
 	//============== Botones ========================
 
 	// Agregar

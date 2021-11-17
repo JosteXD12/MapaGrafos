@@ -69,7 +69,10 @@ void Grafos::Eventos() {
 
 			}
 			if (seleccionarWarsh == true) {
-
+				verticesSeleccionados();
+				if (selec_algorit[1] != nullptr && selec_algorit[0] != nullptr && seleccionarWarsh) {
+					Dijkstra(selec_algorit[0], selec_algorit[1]);
+				}
 
 			}
 			//================== Botones ======================
@@ -149,7 +152,6 @@ void Grafos::Eventos() {
 
 				if (selec_algorit[1] != nullptr&& selec_algorit[0] != nullptr) {
 					if (seleccionarVertice==true || agregarVertice==true) {
-						cout << "aaaaaaa" << endl;
 						int Ipeso;
 						istringstream(box_txt.getString()) >> Ipeso;
 						selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->setPeso(Ipeso);
@@ -203,6 +205,8 @@ void Grafos::Eventos() {
 				boton[7].setOutlineColor(Color(100, 175, 99));
 				rutas_cortas->clear();
 				ruta_principal = "";
+				strResultados = "";
+				resultados.setString(strResultados);
 			}
 		}
 	}
@@ -359,7 +363,12 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	while (act != from)
 	{
 		ruta_principal += act->getId();
-		act->setFillColor(Color::Yellow);
+		if (!seleccionarDijkstra) {
+			ruta_principal += '-';
+		}
+		if (seleccionarDijkstra) {
+			act->setFillColor(Color::Yellow);
+		}
 		act = act->getEtiqueta()->from;
 	}
 	ruta_principal += act->getId();
@@ -369,11 +378,26 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	}
 
 	ruta_principal = ss;
+
+	if (seleccionarDijkstra) {
+		strResultados = "Rutas cortas: ";
+	}
+	else {
+		strResultados = "Si existe camino -> "+ruta_principal;
+	}
 	for (int i = 0; i < rutas_cortas->getSize(); i++) {
 		cout << rutas_cortas->get(i) << endl;
+		if (seleccionarDijkstra) {
+			strResultados += rutas_cortas->get(i) + " || ";
+		}
+	}
+	if (!seleccionarDijkstra) {
+
 	}
 	cout << "=========" << endl;
 	cout << ruta_principal << endl;
+
+	resultados.setString(strResultados);
 }
 
 
@@ -407,7 +431,8 @@ void Grafos::Prim() {
 
 		});
 	}
-	cout << "Coste Minimo: " << sum<<endl;
+	strResultados = "Coste Minimo: " + to_string(sum);
+	resultados.setString(strResultados);
 }
 
 

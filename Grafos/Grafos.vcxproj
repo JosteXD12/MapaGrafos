@@ -23,12 +23,14 @@
     <ClCompile Include="cargarObjetos.cpp" />
     <ClCompile Include="dibujarPantalla.cpp" />
     <ClCompile Include="Eventos.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Gameloop.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Arista.h" />
     <ClInclude Include="ArrayList.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

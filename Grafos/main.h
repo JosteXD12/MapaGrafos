@@ -79,6 +79,9 @@ private:
 	Text box_txt;
 	String y;
 
+	Text resultados;
+	string strResultados;
+
 	ArrayList<RectangleShape*>* boxArista= new ArrayList<RectangleShape*>;
 	ArrayList<Text*>* txtArista = new ArrayList<Text*>;
 	ArrayList<Arista*>* result = new ArrayList<Arista*>();
