@@ -137,7 +137,15 @@ void Grafos::Eventos() {
 					box_txt.setString(y);
 				}
 			}
+
 		case Event::KeyPressed:
+			if (evento->key.code == Keyboard::C) {
+				cout << "ccccccccccc" << endl;
+			}
+			if (evento->key.code == Keyboard::G) {
+				cout << "gggggggggg" << endl;
+			}
+
 			if (evento->key.code == Keyboard::Enter) {
 				int a, b;
 				for (int i = 0; i < n; i++) {

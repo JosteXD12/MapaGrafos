@@ -1,6 +1,4 @@
-#include "Components.h"
-#include <fstream>
-using namespace std;
+#include "main.h"
 
 FileManager::FileManager(OPERATION op, string file_path)
 {
