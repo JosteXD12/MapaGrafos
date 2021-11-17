@@ -7,6 +7,19 @@ bool areSame(string ss1, string ss2)
 	return ss1.compare(ss2) == 0 ? true : false;
 }
 
+Arista* Grafos::getAris(int peso, Vertice* to)
+{
+	for (int i = 0; i < lista_vertices->getSize(); i++)
+	{
+		for (int j = 0; j < lista_vertices->get(i)->getAristas()->getSize(); j++)
+		{
+			if (lista_vertices->get(i)->getAristas()->get(j)->getPeso() == peso && lista_vertices->get(i)->getAristas()->get(j)->getTo() == to)
+			{
+				return lista_vertices->get(i)->getAristas()->get(j);
+			}
+		}
+	}
+}
 
 Vertice* Grafos::getParent(char id)
 {
@@ -594,35 +607,34 @@ void Grafos::Warshall(Vertice* from, Vertice* to)
 void Grafos::Prim()
 {
 	static Vertice* start_node;
-	static priority_queue<pair<int, Vertice*>> ordered_list;
-	static pair<int, Vertice*> current;
-	static ArrayList<Arista*>* prim_result;
-	prim_result = result;
+	static priority_queue<pair<int, Prim_Pair*>> ordered_list;
+	static pair<int, Prim_Pair*> current;
 	static int sum;
+	prim_result->clear();
 	sum = 0;
 	start_node= lista_vertices->get(0);
-	ordered_list = priority_queue<pair<int, Vertice*>>();
-	ordered_list.push({ 0, start_node });
+	ordered_list = priority_queue<pair<int, Prim_Pair*>>();
+	ordered_list.push({ 0,  new Prim_Pair{start_node, nullptr} });
 	while (!ordered_list.empty())
 	{
 		current = ordered_list.top();
 		ordered_list.pop();
-		if (current.second->isVisitado()) continue;
-		cout << "{ " << (current.first) * -1 << " | " << current.second->getId() << " }" << endl;
-
-		current.second->setVisitado(true);
+		if (current.second->arista_to->isVisitado()) continue;
+		cout << "{ " << (current.first) * -1 << " | " << current.second->arista_to->getId() << " }" << endl;
+		prim_result->set(current.second->arista);
+		current.second->arista_to->setVisitado(true);
 		sum -= current.first;
-		current.second->getAristas()->foreach([](Arista* element) -> void
+		current.second->arista_to->getAristas()->foreach([](Arista* element) -> void
 		{
-			ordered_list.push({ (element->getPeso()) * -1, element->getTo() });
+				ordered_list.push({ (element->getPeso()) * -1, new Prim_Pair{element->getTo(), element} });
 		});
 	}
 	strResultados = "Coste Minimo: " + to_string(sum);
 	resultados.setString(strResultados);
-	/*result->foreach([](Arista* arista) -> void
+	for (int i = 1; i < prim_result->getSize(); i++)
 	{
-			cout << arista->isBorrado() << endl;
-	});*/
+		cout << prim_result->get(i)->getFrom()->getId() << " - " << prim_result->get(i)->getTo()->getId() << " | -> " << prim_result->get(i)->getPeso() << endl;
+	}
 }
 
 

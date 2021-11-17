@@ -26,6 +26,7 @@ void Grafos::dibujarPantalla(){
 				}
 
 			}
+			
 			pantalla->draw(line, 2, Lines);
 		}
 		pantalla->draw(*lista_vertices->get(contador));

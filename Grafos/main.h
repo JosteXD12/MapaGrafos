@@ -9,6 +9,11 @@
 
 #define INF 0x3f3f3f3f
 
+struct Prim_Pair
+{
+	Vertice* arista_to;
+	Arista* arista;
+};
 
 class Grafos {
 public:
@@ -20,6 +25,7 @@ public:
 	int colisionVertices(Vertice* send);
 	void CargarObjetos();
 	void limpiar();
+	Arista* getAris(int peso, Vertice* arista_to);
 	void dibujarPantalla();
 	void Dijkstra(Vertice* from, Vertice* to);
 	void Warshall(Vertice* from, Vertice* to);
@@ -91,4 +97,5 @@ private:
 	ArrayList<RectangleShape*>* boxArista= new ArrayList<RectangleShape*>;
 	ArrayList<Text*>* txtArista = new ArrayList<Text*>;
 	ArrayList<Arista*>* result = new ArrayList<Arista*>();
+	ArrayList<Arista*>* prim_result = new ArrayList<Arista*>();
 };
