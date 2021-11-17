@@ -30,6 +30,8 @@ void Grafos::CargarObjetos() {
 	textoBtn[7] = new Text("Dirigido", *fuente, 24);
 	textoBtn[7]->setFillColor(Color(52, 91, 99));
 
+	nota = new Text("Precione G para guardar | Precione C para cargar| Presione ENTER luego de introducir un peso", *fuente, 16);
+
 	box = setRectangulo(128,32,16,208);
 	box.setOutlineColor(Color(100, 175, 99));
 	box.setOutlineThickness(4);
@@ -98,6 +100,8 @@ void Grafos::CargarObjetos() {
 	boton[7].setOutlineColor(Color(100, 175, 99));
 	boton[7].setOutlineThickness(4);
 	textoBtn[7]->setPosition(1238, 352);
+	
+	nota->setPosition(16, 16);
 }
 
 

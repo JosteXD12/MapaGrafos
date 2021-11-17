@@ -609,6 +609,7 @@ void Grafos::Prim()
 		ordered_list.pop();
 		if (current.second->isVisitado()) continue;
 		cout << "{ " << (current.first) * -1 << " | " << current.second->getId() << " }" << endl;
+		strResultados += to_string(current.first) + " | " + current.second->getId() + " || ";
 
 		current.second->setVisitado(true);
 		sum -= current.first;
@@ -617,12 +618,8 @@ void Grafos::Prim()
 			ordered_list.push({ (element->getPeso()) * -1, element->getTo() });
 		});
 	}
-	strResultados = "Coste Minimo: " + to_string(sum);
+	strResultados += "Coste Minimo: " + to_string(sum);
 	resultados.setString(strResultados);
-	/*result->foreach([](Arista* arista) -> void
-	{
-			cout << arista->isBorrado() << endl;
-	});*/
 }
 
 

@@ -7,7 +7,7 @@
 
 
 
-#define INF 0x3f3f3f3f
+#define INF 9999999
 
 
 class Grafos {
@@ -85,6 +85,7 @@ private:
 	string grafo_file = "grafo.txt";
 	String y;
 
+	Text* nota;
 	Text resultados;
 	string strResultados;
 
