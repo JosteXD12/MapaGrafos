@@ -37,6 +37,7 @@ public:
 	void setVistado(bool visitado);
 	bool isVisitado();
 	bool isBorrado();
+	string toString();
 	void setBorrado(bool borrado);
 };
 
@@ -64,5 +65,6 @@ public:
 	Etiqueta* getEtiqueta();
 	char getGrupo();
 	void setGrupo(char grupo);
+	string toString();
 };
 

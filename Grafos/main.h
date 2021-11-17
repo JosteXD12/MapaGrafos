@@ -79,6 +79,7 @@ private:
 	string ruta_principal;
 	RectangleShape box;
 	Text box_txt;
+	string grafo_file = "grafo.txt";
 	String y;
 
 	Text resultados;

@@ -1,4 +1,5 @@
 #include "main.h"
+#include "Arista.h"
 
 Vertice::Vertice(float xpos, float ypos, float width, float height, char id) : RectangleShape()
 {
@@ -47,6 +48,11 @@ char Vertice::getGrupo()
 void Vertice::setGrupo(char grupo)
 {
 	this->grupo = grupo;
+}
+
+string Vertice::toString()
+{
+	return id + "|" + to_string(this->getPosition().x) + "|" + to_string(this->getPosition().x) + "|";
 }
 
 
@@ -151,6 +157,12 @@ bool Arista::isVisitado()
 bool Arista::isBorrado()
 {
 	return borrado;
+}
+
+string Arista::toString()
+{
+	string ss= from->getId() + "-" + to->getId();
+	return ss + "|" + to_string(peso);
 }
 
 void Arista::setBorrado(bool borrado)

@@ -1,8 +1,6 @@
 #include "main.h"
 #include <queue>
 
-
-
 void Grafos::Eventos() {
 	while (pantalla->pollEvent(*evento)) {
 		switch (evento->type)
@@ -140,10 +138,22 @@ void Grafos::Eventos() {
 
 		case Event::KeyPressed:
 			if (evento->key.code == Keyboard::C) {
-				cout << "ccccccccccc" << endl;
 			}
 			if (evento->key.code == Keyboard::G) {
-				cout << "gggggggggg" << endl;
+ 				FileManager* file = new FileManager(OPERATION::WRITE, grafo_file);
+				lista_vertices->foreach([file](Vertice* vertice) -> void
+				{
+					file->pushLine(vertice->toString());
+				});
+				file->pushLine("$");
+				lista_vertices->foreach([file](Vertice* vertice) -> void
+				{
+					vertice->getAristas()->foreach([file](Arista* arista) -> void
+					{
+							file->pushLine(arista->toString());
+					});
+				});
+				file->pushLine("$");
 			}
 
 			if (evento->key.code == Keyboard::Enter) {
