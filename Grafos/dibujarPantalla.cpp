@@ -11,7 +11,6 @@ void Grafos::dibujarPantalla(){
 		for (int i = 0; i < lista_vertices->get(contador)->getAristas()->getSize(); i++)
 		{
 			static Arista* this_arista;
-
 			if (!seleccionarPrim)
 			{
 				this_arista = lista_vertices->get(contador)->getAristas()->get(i);
