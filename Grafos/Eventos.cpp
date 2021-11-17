@@ -12,7 +12,7 @@ void Grafos::Eventos() {
 			exit(0);
 			break;
 		case Event::MouseButtonPressed:
-			if (agregarVertice == true) {
+			if (agregarVertice == true&&(selec_algorit[0] == nullptr || selec_algorit[1] == nullptr)) {
 				Vector2i posicionMouse = Mouse::getPosition(*pantalla);
 				posicionMouse = (Vector2i)pantalla->mapPixelToCoords(posicionMouse);
 				lista_vertices->set(new Vertice(posicionMouse.x, posicionMouse.y, 20, 20, 'A' + n));
@@ -22,19 +22,19 @@ void Grafos::Eventos() {
 				textoVertices[n]->setFillColor(Color::Black);
 				textoVertices[n]->setPosition(posicionMouse.x + 2, posicionMouse.y - 1);
 
-				if (select_grafo != nullptr)
+				if (select_grafo != nullptr&&(seleccionarVertice == true || agregarVertice == true))
 				{
 					select_grafo->getAristas()->set(new Arista(select_grafo->getPosition().x + 10, select_grafo->getPosition().y + 10, lista_vertices->get(n)->getPosition().x + 10, lista_vertices->get(n)->getPosition().y + 10, 0, select_grafo, lista_vertices->get(n)));
 				}
 				else
 				{
-					if (selec_algorit[0] == nullptr)
+					if (selec_algorit[0] == nullptr && agregarVertice == true)
 					{
 						cout << "entro1" << endl;
 						selec_algorit[0] = lista_vertices->get(n);
 						selec_algorit[0]->setFillColor(Color::Yellow);
 					}
-					else if (selec_algorit[1] == nullptr)
+					else if (selec_algorit[1] == nullptr&& agregarVertice == true)
 					{
 						cout << "entro2" << endl;
 						selec_algorit[1] = lista_vertices->get(n);
@@ -46,7 +46,6 @@ void Grafos::Eventos() {
 						selec_algorit[1]->setFillColor(Color::Yellow);
 						activarTexbox = true;
 					}
-					agregarVertice = false;
 				}
 				n++;
 
@@ -54,30 +53,24 @@ void Grafos::Eventos() {
 			//============= Selecciona 2 vertices ====================
 			if (seleccionarVertice == true) {
 				verticesSeleccionados();
-				if (selec_algorit[1] != nullptr) {
-					seleccionarVertice = false;
+				if (selec_algorit[1] != nullptr && selec_algorit[0] != nullptr&& seleccionarVertice) {
 					selec_algorit[0]->getAristas()->set(new Arista(selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, 0, selec_algorit[0], selec_algorit[1]));
+					if (!dirigido) {
+						selec_algorit[1]->getAristas()->set(new Arista(selec_algorit[1]->getPosition().x + 10, selec_algorit[1]->getPosition().y + 10, selec_algorit[0]->getPosition().x + 10, selec_algorit[0]->getPosition().y + 10, 0, selec_algorit[1], selec_algorit[0]));
+					}
 					activarTexbox = true;
 				}
 			}
 			if (seleccionarDijkstra == true) {
 				verticesSeleccionados();
-				if (selec_algorit[1] != nullptr&& selec_algorit[0] != nullptr) {
-					seleccionarDijkstra = false;
+				if (selec_algorit[1] != nullptr&& selec_algorit[0] != nullptr&& seleccionarDijkstra) {
 					Dijkstra(selec_algorit[0], selec_algorit[1]);
-					selec_algorit[0] = nullptr;
-					selec_algorit[1] = nullptr;
 				}
 
 			}
 			if (seleccionarWarsh == true) {
-				verticesSeleccionados();
-				if (selec_algorit[1] != nullptr) {
-					seleccionarWarsh = false;
-					Warshall(selec_algorit[0], selec_algorit[1]);
-					selec_algorit[0] = nullptr;
-					selec_algorit[1] = nullptr;
-				}
+
+
 			}
 			//================== Botones ======================
 			switch (ColisionMouse())
@@ -97,10 +90,12 @@ void Grafos::Eventos() {
 				break;
 
 			case 5:
+				seleccionarPrim = true;
 				Prim();
 				break;
 			case 6:
-				Kruskal();
+				seleccionarPrim = true;
+				Prim();
 				break;
 			case 7:
 				n = 0;
@@ -152,27 +147,38 @@ void Grafos::Eventos() {
 					}
 				}
 
-				if (selec_algorit[1] != nullptr) {
-					int Ipeso;
-					istringstream(box_txt.getString()) >> Ipeso;
-					selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize()-1)->setPeso(Ipeso);
-					if (!dirigido) {
-						selec_algorit[1]->getAristas()->get(selec_algorit[1]->getAristas()->getSize() - 1)->setPeso(Ipeso);
+				if (selec_algorit[1] != nullptr&& selec_algorit[0] != nullptr) {
+					if (seleccionarVertice==true || agregarVertice==true) {
+						cout << "aaaaaaa" << endl;
+						int Ipeso;
+						istringstream(box_txt.getString()) >> Ipeso;
+						selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->setPeso(Ipeso);
+						if (!dirigido) {
+							selec_algorit[1]->getAristas()->get(selec_algorit[1]->getAristas()->getSize() - 1)->setPeso(Ipeso);
+						}
 					}
-					boxArista->set(new RectangleShape(Vector2f(10, 10)));
-					int x = (selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2;
-					int y = (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2;
-					x = (x + selec_algorit[1]->getPosition().x) / 2;
-					y = (y + selec_algorit[1]->getPosition().y) / 2;
-					x = (x + selec_algorit[1]->getPosition().x) / 2;
-					y = (y + selec_algorit[1]->getPosition().y) / 2;
-					x = (x + selec_algorit[1]->getPosition().x) / 2;
-					y = (y + selec_algorit[1]->getPosition().y) / 2;
+					if (dirigido) {
+						boxArista->set(new RectangleShape(Vector2f(8, 8)));
+						int x = (selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2;
+						int y = (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2;
+						x = (x + selec_algorit[1]->getPosition().x) / 2;
+						y = (y + selec_algorit[1]->getPosition().y) / 2;
+						x = (x + selec_algorit[1]->getPosition().x) / 2;
+						y = (y + selec_algorit[1]->getPosition().y) / 2;
 
-					boxArista->get(boxArista->getSize() - 1)->setPosition(x,y);
-					txtArista->set(new Text(to_string(selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->getPeso()),*fuente,25));
-					txtArista->get(txtArista->getSize() - 1)->setPosition((selec_algorit[0]->getPosition().x+ selec_algorit[1]->getPosition().x )/2 , (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2);
-					txtArista->get(txtArista->getSize() - 1)->setFillColor(Color::Yellow);
+						boxArista->get(boxArista->getSize() - 1)->setPosition(x, y);
+					}
+					if (seleccionarVertice == true || agregarVertice == true) {
+						txtArista->set(new Text(to_string(selec_algorit[0]->getAristas()->get(selec_algorit[0]->getAristas()->getSize() - 1)->getPeso()), *fuente, 25));
+						txtArista->get(txtArista->getSize() - 1)->setPosition((selec_algorit[0]->getPosition().x + selec_algorit[1]->getPosition().x) / 2, (selec_algorit[0]->getPosition().y + selec_algorit[1]->getPosition().y) / 2);
+						txtArista->get(txtArista->getSize() - 1)->setFillColor(Color::Yellow);
+					}
+				}
+				if (seleccionarDijkstra || seleccionarWarsh || seleccionarPrim) {
+					n = 0;
+					lista_vertices->deleteAll();
+					boxArista->deleteAll();
+					txtArista->deleteAll();
 				}
 
 				// ==========    vaciar   ====================
@@ -180,18 +186,23 @@ void Grafos::Eventos() {
 				box_txt.setString(y);
 				selec_algorit[0] = nullptr;
 				selec_algorit[1] = nullptr;
+				agregarVertice = false;
 				activarTexbox = false;
 				select_grafo = nullptr;
 				seleccionarVertice = false;
 				seleccionarDijkstra = false;
 				seleccionarWarsh = false;
 				box.setOutlineColor(Color(100, 175, 99));
+				boton[0].setOutlineColor(Color(100, 175, 99));
 				boton[1].setOutlineColor(Color(100, 175, 99));
 				boton[2].setOutlineColor(Color(100, 175, 99));
 				boton[3].setOutlineColor(Color(100, 175, 99));
 				boton[4].setOutlineColor(Color(100, 175, 99));
 				boton[5].setOutlineColor(Color(100, 175, 99));
 				boton[6].setOutlineColor(Color(100, 175, 99));
+				boton[7].setOutlineColor(Color(100, 175, 99));
+				rutas_cortas->clear();
+				ruta_principal = "";
 			}
 		}
 	}
@@ -217,6 +228,7 @@ int Grafos::ColisionMouse() {
 	FloatRect hitboxMouse = Rect<float>::Rect(posicionMouse.x, posicionMouse.y, 1, 1);
 
 	if (boton[0].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[0].setOutlineColor(Color::Yellow);
 		return 1;
 	}
 	if (boton[1].getGlobalBounds().intersects(hitboxMouse)) {
@@ -247,6 +259,7 @@ int Grafos::ColisionMouse() {
 		return 6;
 	}
 	if (boton[6].getGlobalBounds().intersects(hitboxMouse)) {
+		boton[6].setOutlineColor(Color::Yellow);
 		return 7;
 	}
 	if (boton[7].getGlobalBounds().intersects(hitboxMouse)) {
@@ -346,7 +359,7 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	while (act != from)
 	{
 		ruta_principal += act->getId();
-		ruta_principal += '-';
+		act->setFillColor(Color::Yellow);
 		act = act->getEtiqueta()->from;
 	}
 	ruta_principal += act->getId();

@@ -1,8 +1,9 @@
 #include "main.h"
-
+int indx=0;
 
 
 void Grafos::dibujarPantalla(){
+	indx = 0;
 	int contador =0;
 	pantalla->clear();
 	pantalla->draw(*fondo);
@@ -16,6 +17,15 @@ void Grafos::dibujarPantalla(){
 				Vertex(Vector2f(this_arista->getIni_x(), this_arista->getIni_y())),
 				Vertex(Vector2f(this_arista->getEnd_x(), this_arista->getEnd_y()))
 			};
+			if (seleccionarDijkstra && indx < ruta_principal.length())
+			{
+				if (this_arista->getFrom()->getId() == ruta_principal[indx] && this_arista->getTo()->getId() == ruta_principal[indx + 1])
+				{
+					line->color = Color::Yellow;
+					indx++;
+				}
+
+			}
 			pantalla->draw(line, 2, Lines);
 		}
 		pantalla->draw(*lista_vertices->get(contador));

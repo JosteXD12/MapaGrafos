@@ -23,7 +23,6 @@ public:
 	void Prim();
 	void Kruskal();
 	int verticesSeleccionados();
-
 	void definirMatriz() {
 		matriz = new int* [n];
 		for (int i = 0; i < n; i++) {
@@ -71,6 +70,7 @@ private:
 	bool seleccionarVertice=false;
 	bool activarTexbox = false;
 	bool seleccionarDijkstra = false;
+	bool seleccionarPrim = false;
 	bool seleccionarWarsh = false;
 	bool dirigido = false;
 	ArrayList<string>* rutas_cortas= new ArrayList<string>();
