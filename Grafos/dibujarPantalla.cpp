@@ -76,5 +76,7 @@ void Grafos::dibujarPantalla(){
 	pantalla->draw(box);
 	pantalla->draw(box_txt);
 	pantalla->draw(resultados);
+	pantalla->draw(*nota);
 	pantalla->display();
+
 }

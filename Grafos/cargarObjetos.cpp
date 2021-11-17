@@ -43,6 +43,9 @@ void Grafos::CargarObjetos() {
 	resultados.setCharacterSize(18);
 	resultados.setFillColor(Color::White);
 
+	nota = new Text("Precione G para guardar | Precione C para cargar| Presione ENTER luego de introducir un peso", *fuente, 16);
+	nota->setPosition(16, 16);
+
 	//============== Botones ========================
 
 	// Agregar
@@ -103,5 +106,12 @@ void Grafos::CargarObjetos() {
 
 string Grafos::respuestaDijkstra()
 {
-	return "Si existe camino -> ";
+	if (ruta_principal=="")
+	{
+		return "No existe camino";
+	}
+	else
+	{
+		return "Si existe camino -> ";
+	}
 }

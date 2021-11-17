@@ -81,6 +81,7 @@ private:
 	bool seleccionarVertice=false;
 	bool activarTexbox = false;
 	bool seleccionarDijkstra = false;
+	Text* nota;
 	bool seleccionarPrim = false;
 	bool seleccionarWarsh = false;
 	bool dirigido = false;

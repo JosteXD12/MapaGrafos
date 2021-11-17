@@ -200,6 +200,10 @@ void Grafos::Eventos() {
 				FileManager* file= new FileManager(OPERATION::READ, grafo_file);
 				file->loadLine();
 				dirigido = stoi(file->getThisLine());
+				if (dirigido)
+				{
+					boton[7].setOutlineColor(Color::Yellow);
+				}
 				file->loadLine();
 				while (!areSame(file->getThisLine(), "$"))
 				{
@@ -516,6 +520,11 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 	act = to;
 	while (act != from)
 	{
+		if (act->getEtiqueta() == nullptr)
+		{
+			ruta_principal = "";
+			break;
+		}
 		ruta_principal += act->getId();
 		if (!seleccionarDijkstra) {
 			ruta_principal += '-';
@@ -525,14 +534,20 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 		}
 		act = act->getEtiqueta()->from; //
 	}
-	ruta_principal += act->getId();
-	for (int j = ruta_principal.length() - 1; j >= 0; j--)
+	if (act->getEtiqueta() == nullptr)
 	{
-		ss += ruta_principal[j];
+		ruta_principal = "";
 	}
+	else
+	{
+		ruta_principal += act->getId();
+		for (int j = ruta_principal.length() - 1; j >= 0; j--)
+		{
+			ss += ruta_principal[j];
 
-	ruta_principal = ss;
-
+		}
+		ruta_principal = ss;
+	}
 	if (seleccionarDijkstra) {
 		strResultados = "Rutas cortas: ";
 	}
