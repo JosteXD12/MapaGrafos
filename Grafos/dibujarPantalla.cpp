@@ -11,23 +11,40 @@ void Grafos::dibujarPantalla(){
 		for (int i = 0; i < lista_vertices->get(contador)->getAristas()->getSize(); i++)
 		{
 			static Arista* this_arista;
-			this_arista = lista_vertices->get(contador)->getAristas()->get(i);
-			Vertex line[] =
-			{
-				Vertex(Vector2f(this_arista->getIni_x(), this_arista->getIni_y())),
-				Vertex(Vector2f(this_arista->getEnd_x(), this_arista->getEnd_y()))
-			};
-			if (seleccionarDijkstra && indx < ruta_principal.length())
-			{
-				if (this_arista->getFrom()->getId() == ruta_principal[indx] && this_arista->getTo()->getId() == ruta_principal[indx + 1])
-				{
-					line->color = Color::Yellow;
-					indx++;
-				}
 
+			if (!seleccionarPrim)
+			{
+				this_arista = lista_vertices->get(contador)->getAristas()->get(i);
+				Vertex line[] =
+				{
+					Vertex(Vector2f(this_arista->getIni_x(), this_arista->getIni_y())),
+					Vertex(Vector2f(this_arista->getEnd_x(), this_arista->getEnd_y()))
+				};
+				if (seleccionarDijkstra && indx < ruta_principal.length())
+				{
+					if (this_arista->getFrom()->getId() == ruta_principal[indx] && this_arista->getTo()->getId() == ruta_principal[indx + 1])
+					{
+						line->color = Color::Yellow;
+						indx++;
+					}
+
+				}
+				pantalla->draw(line, 2, Lines);
 			}
-			
-			pantalla->draw(line, 2, Lines);
+			else
+			{
+				this_arista = lista_vertices->get(contador)->getAristas()->get(i);
+				if (prim_result->hasIt(this_arista))
+				{
+					Vertex line[] =
+					{
+						Vertex(Vector2f(this_arista->getIni_x(), this_arista->getIni_y())),
+						Vertex(Vector2f(this_arista->getEnd_x(), this_arista->getEnd_y()))
+					};
+					line->color = Color::Yellow;
+					pantalla->draw(line, 2, Lines);
+				}
+			}
 		}
 		pantalla->draw(*lista_vertices->get(contador));
 		pantalla->draw(*textoVertices[contador]);

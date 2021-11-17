@@ -69,6 +69,14 @@ public:
 	{
 		return size;
 	}
+	bool hasIt(T object)
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (object == get(i)) return true;
+		}
+		return false;
+	}
 	T get(int index)
 	{
 		if (init != nullptr || index < size || index >= 0)
