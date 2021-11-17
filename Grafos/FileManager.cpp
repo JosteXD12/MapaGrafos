@@ -88,7 +88,6 @@ void FileManager::pushLine(string ss)
 	}
 	else
 	{
-		cout << ss;
 		ss += "\n";
 		write_file << ss;
 	}
@@ -157,4 +156,11 @@ void FileManager::end()
 	default:
 		break;
 	}
+}
+
+void FileManager::clearFile(string file_path)
+{
+	std::ofstream ofs;
+	ofs.open(file_path, std::ofstream::out | std::ofstream::trunc);
+	ofs.close();
 }

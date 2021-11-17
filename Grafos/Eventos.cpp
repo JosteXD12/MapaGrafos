@@ -1,6 +1,52 @@
 #include "main.h"
 #include <queue>
 
+
+bool areSame(string ss1, string ss2)
+{
+	return ss1.compare(ss2) == 0 ? true : false;
+}
+
+
+Vertice* Grafos::getParent(char id)
+{
+	for (int i = 0; i < lista_vertices->getSize(); i++)
+	{
+		if (lista_vertices->get(i)->getId() == id) return lista_vertices->get(i);
+	}
+}
+void Grafos::limpiar()
+{
+	n = 0;
+	lista_vertices->deleteAll();
+	boxArista->deleteAll();
+	txtArista->deleteAll();
+
+	y = "";
+	box_txt.setString(y);
+	selec_algorit[0] = nullptr;
+	selec_algorit[1] = nullptr;
+	agregarVertice = false;
+	activarTexbox = false;
+	select_grafo = nullptr;
+	seleccionarVertice = false;
+	seleccionarDijkstra = false;
+	seleccionarWarsh = false;
+	box.setOutlineColor(Color(100, 175, 99));
+	boton[0].setOutlineColor(Color(100, 175, 99));
+	boton[1].setOutlineColor(Color(100, 175, 99));
+	boton[2].setOutlineColor(Color(100, 175, 99));
+	boton[3].setOutlineColor(Color(100, 175, 99));
+	boton[4].setOutlineColor(Color(100, 175, 99));
+	boton[5].setOutlineColor(Color(100, 175, 99));
+	boton[6].setOutlineColor(Color(100, 175, 99));
+	//boton[7].setOutlineColor(Color(100, 175, 99));
+	rutas_cortas->clear();
+	ruta_principal = "";
+	strResultados = "";
+	resultados.setString(strResultados);
+}
+
 void Grafos::Eventos() {
 	while (pantalla->pollEvent(*evento)) {
 		switch (evento->type)
@@ -99,10 +145,7 @@ void Grafos::Eventos() {
 				Prim();
 				break;
 			case 7:
-				n = 0;
-				lista_vertices->deleteAll();
-				boxArista->deleteAll();
-				txtArista->deleteAll();
+				limpiar();
 				break;
 
 			case 8:
@@ -137,10 +180,87 @@ void Grafos::Eventos() {
 			}
 
 		case Event::KeyPressed:
-			if (evento->key.code == Keyboard::C) {
+			if (evento->key.code == Keyboard::C) 
+			{
+				limpiar();
+				FileManager* file= new FileManager(OPERATION::READ, grafo_file);
+				file->loadLine();
+				dirigido = stoi(file->getThisLine());
+				file->loadLine();
+				while (!areSame(file->getThisLine(), "$"))
+				{
+					int x = 0;
+					int y = 0;
+					char id = file->nextChar();
+					string num = "";
+					file->nextChar();
+					char aux;
+					aux= file->nextChar();
+					while (aux != '|')
+					{
+						num += aux;
+						aux = file->nextChar();
+					}
+					x = stoi(num);
+					num = "";
+					aux = file->nextChar();
+					while (aux != '|')
+					{
+						num += aux;
+						aux = file->nextChar();
+					}
+					y = stoi(num);
+					lista_vertices->set(new Vertice(x, y, 20, 20, id));
+					textoVertices[n] = new Text(id, *fuente, 16);
+					textoVertices[n]->setPosition(x, y);
+					textoVertices[n]->setFillColor(Color::Black);
+					n++;
+					file->loadLine();
+				}
+				file->loadLine();
+				while (!areSame(file->getThisLine(), "$"))
+				{
+					int peso = 0;
+					char id_from = file->nextChar();
+					file->nextChar();
+					char id_to = file->nextChar();
+					char aux;
+					file->nextChar();
+					aux = file->nextChar();
+					string num = "";
+					while (aux != '|')
+					{
+						num += aux;
+						aux = file->nextChar();
+					}
+					peso = stoi(num);
+					Vertice* from = getParent(id_from);
+					Vertice* to = getParent(id_to);
+					from->getAristas()->set(new Arista(from->getPosition().x + 10, from->getPosition().y + 10, to->getPosition().x + 10, to->getPosition().y + 10, peso, from, to));
+					Arista* aux_arista = from->getAristas()->get(from->getAristas()->getSize() - 1);
+					txtArista->set(new Text(to_string(peso), *fuente, 25));
+					txtArista->get(txtArista->getSize() - 1)->setPosition((aux_arista->getIni_x() + aux_arista->getEnd_x()) / 2 , (aux_arista->getIni_y() + aux_arista->getEnd_y()) / 2);
+					txtArista->get(txtArista->getSize() - 1)->setFillColor(Color::Yellow);
+					if (dirigido)
+					{
+						boxArista->set(new RectangleShape(Vector2f(8, 8)));
+						int xb = (from->getPosition().x + to->getPosition().x) / 2;
+						int yb = (from->getPosition().y + to->getPosition().y) / 2;
+						xb = (xb + to->getPosition().x) / 2;
+						yb = (yb + to->getPosition().y) / 2;
+						xb = (xb + to->getPosition().x) / 2;
+						yb = (yb + to->getPosition().y) / 2;
+						boxArista->get(boxArista->getSize() - 1)->setPosition(xb, yb);
+					}
+					file->loadLine();
+				}
+				cout << n << endl;
 			}
-			if (evento->key.code == Keyboard::G) {
+			if (evento->key.code == Keyboard::G) 
+			{
+				FileManager::clearFile(grafo_file);
  				FileManager* file = new FileManager(OPERATION::WRITE, grafo_file);
+				file->pushLine((dirigido ? "1" : "0"));
 				lista_vertices->foreach([file](Vertice* vertice) -> void
 				{
 					file->pushLine(vertice->toString());
@@ -154,6 +274,7 @@ void Grafos::Eventos() {
 					});
 				});
 				file->pushLine("$");
+				file->end();
 			}
 
 			if (evento->key.code == Keyboard::Enter) {
@@ -220,7 +341,7 @@ void Grafos::Eventos() {
 				boton[4].setOutlineColor(Color(100, 175, 99));
 				boton[5].setOutlineColor(Color(100, 175, 99));
 				boton[6].setOutlineColor(Color(100, 175, 99));
-				boton[7].setOutlineColor(Color(100, 175, 99));
+				//boton[7].setOutlineColor(Color(100, 175, 99));
 				rutas_cortas->clear();
 				ruta_principal = "";
 				strResultados = "";
@@ -401,7 +522,7 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 		strResultados = "Rutas cortas: ";
 	}
 	else {
-		strResultados = "Si existe camino -> "+ruta_principal;
+		strResultados = respuestaDijkstra() + ruta_principal;
 	}
 	for (int i = 0; i < rutas_cortas->getSize(); i++) {
 		cout << rutas_cortas->get(i) << endl;
@@ -420,16 +541,63 @@ void Grafos::Dijkstra(Vertice* from, Vertice* to) {
 
 
 
-void Grafos::Warshall(Vertice* from, Vertice* to) {
+void Grafos::Warshall(Vertice* from, Vertice* to) 
+{
+	int llenar= 0;
+	ArrayList<Arista*>* auxArista = new ArrayList<Arista*>();
+	ArrayList<Vertice*>* auxlist = new ArrayList<Vertice*>();
+	matriz = new int* [n];
+	lista_aristas->clear();
+	for (int i = 0; i < n; i++) {
+		matriz[i] = new int[i];
+	}
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		if (matriz[i][i] < 0) {
+			matriz[i][i] = INF;
+			llenar = matriz[i][i];
+		}
+	}
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		for (int j = 0; j < lista_vertices->getSize(); j++) {
+			if (lista_vertices->get(i)->getAristas()->getSize() != 0) {
+				matriz[i][j] = lista_vertices->get(i)->getAristas()->get(j)->getPeso();
+			}
+		}
+	}
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		for (int j = 0; j < lista_vertices->getSize(); j++) {
+			for (int k = 0; k < lista_vertices->getSize(); k++) {
 
+				if (matriz[i][j] > (matriz[i][k] + matriz[k][j]) && (matriz[k][j] != INF && matriz[i][k] != INF)) {
+					matriz[i][j] = matriz[i][k] + matriz[k][j];
+				}
+
+			}
+		}
+	}
+	for (int i = 0; i < lista_vertices->getSize(); i++) {
+		for (int j = 0; j < lista_vertices->getSize(); j++) {
+			if (matriz[i][j] != INF && i != j) {
+				auxArista->set(lista_vertices->get(i)->getAristas()->get(j));
+				auxlist->set(auxArista->get(i)->getFrom());
+			}
+		}
+	}
+	strResultados = "Si existe camino -> ";
+	for (int i = 0; i < auxArista->getSize(); i++) {
+		strResultados += auxArista->get(i)->getFrom()->getId() + "-";
+	}
+	resultados.setString(strResultados);
 }
 
 
-
-void Grafos::Prim() {
+void Grafos::Prim()
+{
 	static Vertice* start_node;
 	static priority_queue<pair<int, Vertice*>> ordered_list;
 	static pair<int, Vertice*> current;
+	static ArrayList<Arista*>* prim_result;
+	prim_result = result;
 	static int sum;
 	sum = 0;
 	start_node= lista_vertices->get(0);
@@ -441,16 +609,20 @@ void Grafos::Prim() {
 		ordered_list.pop();
 		if (current.second->isVisitado()) continue;
 		cout << "{ " << (current.first) * -1 << " | " << current.second->getId() << " }" << endl;
+
 		current.second->setVisitado(true);
 		sum -= current.first;
 		current.second->getAristas()->foreach([](Arista* element) -> void
 		{
 			ordered_list.push({ (element->getPeso()) * -1, element->getTo() });
-
 		});
 	}
 	strResultados = "Coste Minimo: " + to_string(sum);
 	resultados.setString(strResultados);
+	/*result->foreach([](Arista* arista) -> void
+	{
+			cout << arista->isBorrado() << endl;
+	});*/
 }
 
 

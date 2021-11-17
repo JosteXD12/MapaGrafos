@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <functional>
+#include <string>
 using namespace sf;
 using namespace std;
 // Clase arraylist

@@ -25,6 +25,7 @@ public:
 	char nextChar();
 	bool isFileFine();
 	void end();
+	static void clearFile(string file_path);
 };
 
 

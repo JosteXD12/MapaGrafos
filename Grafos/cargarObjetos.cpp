@@ -99,3 +99,9 @@ void Grafos::CargarObjetos() {
 	boton[7].setOutlineThickness(4);
 	textoBtn[7]->setPosition(1238, 352);
 }
+
+
+string Grafos::respuestaDijkstra()
+{
+	return "Si existe camino -> ";
+}

@@ -52,7 +52,18 @@ void Vertice::setGrupo(char grupo)
 
 string Vertice::toString()
 {
-	return id + "|" + to_string(this->getPosition().x) + "|" + to_string(this->getPosition().x) + "|";
+	int a = (int) this->getPosition().x;
+	int b = (int) this->getPosition().y;
+	stringstream ssa;
+	stringstream ssb;
+	ssa << a;
+	string str_a = ssa.str();
+	ssb << b;
+	string str_b = ssb.str();
+	string ssr = "";
+	ssr += id;
+	ssr += "|" + str_a + "|" + str_b + "|";
+	return ssr;
 }
 
 
@@ -161,8 +172,14 @@ bool Arista::isBorrado()
 
 string Arista::toString()
 {
-	string ss= from->getId() + "-" + to->getId();
-	return ss + "|" + to_string(peso);
+	stringstream sss;
+	sss << peso;
+	string str_a = sss.str();
+	string ss = "";
+	ss += from->getId();
+	ss += "-";
+	ss += to->getId();
+	return ss + "|" + str_a + "|";
 }
 
 void Arista::setBorrado(bool borrado)

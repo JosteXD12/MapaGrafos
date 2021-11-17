@@ -19,12 +19,15 @@ public:
 	int ColisionMouse();
 	int colisionVertices(Vertice* send);
 	void CargarObjetos();
+	void limpiar();
 	void dibujarPantalla();
 	void Dijkstra(Vertice* from, Vertice* to);
 	void Warshall(Vertice* from, Vertice* to);
+	string respuestaDijkstra();
 	void Prim();
 	void Kruskal();
 	int verticesSeleccionados();
+	Vertice* getParent(char id);
 	void definirMatriz() {
 		matriz = new int* [n];
 		for (int i = 0; i < n; i++) {
